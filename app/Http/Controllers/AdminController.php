@@ -103,6 +103,28 @@ class AdminController extends Controller
         return view('admin.senior_citizen', $data);
     }
 
+    public function getMembershipFormPage()
+    {
+        $data['title'] = "Membership Form";
+        // $data['barangays'] = Barangay::all();
+        // $data['civil_status'] = CivilStatus::all();
+        $data['base_url'] = App::make("url")->to('/');
+        // $data['prof_pic'] = UserProfile::where('user_id', Auth::user()->id)->select('user_profile_pic')->pluck('user_profile_pic');
+
+        return view('admin.membershipform', $data);
+    }
+
+    public function getBorrowPage()
+    {
+        $data['title'] = "Borrow";
+        // $data['barangays'] = Barangay::all();
+        // $data['civil_status'] = CivilStatus::all();
+        $data['base_url'] = App::make("url")->to('/');
+        // $data['prof_pic'] = UserProfile::where('user_id', Auth::user()->id)->select('user_profile_pic')->pluck('user_profile_pic');
+
+        return view('admin.borrow', $data);
+    }
+
     public function saveRecord(Request $request)
     {
         if (empty($request->id)) {

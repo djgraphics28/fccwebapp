@@ -188,9 +188,9 @@
             <i class="fa fa-dashboard"></i> <span>Dashboard</span>
           </a>
         </li>
-        <li class="{{ strpos(Request::url(), 'admin-record') == true ? 'active' : '' }}">
-          <a href="{{ url('/admin-record') }}">
-            <i class="fa fa-file"></i> <span>Registration Form</span>
+        <li class="{{ strpos(Request::url(), 'membership-form') == true ? 'active' : '' }}">
+          <a href="{{ url('/membership-form') }}">
+            <i class="fa fa-file"></i> <span>Membership Form</span>
           </a>
         </li>
         <li class="{{ strpos(Request::url(), 'admin-record') == true ? 'active' : '' }}">
@@ -203,8 +203,8 @@
             <i class="glyphicon glyphicon-piggy-bank"></i> <span>Manage Contribution</span>
           </a>
         </li>
-        <li class="{{ strpos(Request::url(), 'pension') == true ? 'active' : '' }}">
-          <a href="{{ url('/admin-senior-pension') }}">
+        <li class="{{ strpos(Request::url(), 'borrow') == true ? 'active' : '' }}">
+          <a href="{{ url('/borrow') }}">
             <i class="fa fa-money"></i> <span>Borrow</span>
           </a>
         </li>
