@@ -94,7 +94,7 @@ class AdminController extends Controller
 
     public function getSeniorCitizenPage()
     {
-        $data['title'] = "Senior Citizen Record Management";
+        $data['title'] = "Member List";
         $data['barangays'] = Barangay::all();
         $data['civil_status'] = CivilStatus::all();
         $data['base_url'] = App::make("url")->to('/');
@@ -112,6 +112,122 @@ class AdminController extends Controller
         // $data['prof_pic'] = UserProfile::where('user_id', Auth::user()->id)->select('user_profile_pic')->pluck('user_profile_pic');
 
         return view('admin.membershipform', $data);
+    }
+
+    public function saveMember(Request $request)
+    {
+        if (empty($request->id)) {
+            $this->validate($request, [
+                'profile_photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            ]);
+
+            if ($request->hasFile('profile_photo')) {
+                $image = $request->file('profile_photo');
+                $name = md5(time() . "-" . $request->file('profile_photo')->getClientOriginalName()) . '.' . $image->getClientOriginalExtension();
+                $destinationPath = public_path('/images');
+
+                if (File::isDirectory($destinationPath)) {
+                    $image->move($destinationPath, $name);
+                } else {
+                    File::makeDirectory($destinationPath);
+                    $image->move($destinationPath, $name);
+                }
+            }
+
+            // $lastID = DB::table('records')->selectRaw('max(id) as id')->first()->id != 0 ? DB::table('records')->selectRaw('max(id) as id')->first()->id : 1;
+            // $unique_id_num = str_pad(mt_rand(1, 99999999), 3, '0', STR_PAD_LEFT) . '-' . str_pad($lastID, 3, '0', STR_PAD_LEFT);;
+            $data = array(
+                'fname' => strtoupper($request->fname),
+                'lname' => strtoupper($request->lname),
+                'mname' => strtoupper($request->mname),
+                'ename' => strtoupper($request->ename),
+                'gender' => $request->gender,
+                'birthdate' => date('Y-m-d', strtotime($request->birthdate)),
+                'civil_status' => $request->civil_status,
+                'profile_pic' => 'public/images/' . $name,
+                'address' => ucwords($request->address),
+                'barangay' => $request->barangay,
+                'street' => $request->street,
+                'phone_num' => $request->phone_num,
+                'tel_num' => $request->tel_num,
+            );
+
+            $record_id = Records::create($data);
+
+            $data_cp = array(
+                'record_id' => $record_id->id,
+                'cp_fname' => strtoupper($request->cp_fname),
+                'cp_lname' => strtoupper($request->cp_lname),
+                'cp_mname' => strtoupper($request->cp_mname),
+                'cp_ename' => strtoupper($request->cp_ename),
+                'relationship' => ucwords($request->relationship),
+                'cp_address' => ucwords($request->cp_address),
+                'cp_phone_num' => $request->cp_phone_num,
+                'cp_tel_num' => $request->cp_tel_num,
+            );
+
+            $resultData = ContactPerson::create($data_cp);
+        } else {
+            if (empty($request->pic)) {
+                $this->validate($request, [
+                    'profile_photo' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+                ]);
+
+                if ($request->hasFile('profile_photo')) {
+                    $image = $request->file('profile_photo');
+                    $name = 'public/images/' . md5(time() . "-" . $request->file('profile_photo')->getClientOriginalName()) . '.' . $image->getClientOriginalExtension();
+                    $destinationPath = public_path('/images');
+
+                    if (File::isDirectory($destinationPath)) {
+                        $image->move($destinationPath, $name);
+                    } else {
+                        File::makeDirectory($destinationPath);
+                        $image->move($destinationPath, $name);
+                    }
+                }
+            } else {
+                $name = $request->pic;
+            }
+
+            $data = array(
+                'fname' => strtoupper($request->fname),
+                'lname' => strtoupper($request->lname),
+                'mname' => strtoupper($request->mname),
+                'ename' => strtoupper($request->ename),
+                'gender' => $request->gender,
+                'birthdate' => date('Y-m-d', strtotime($request->birthdate)),
+                'civil_status' => $request->civil_status,
+                'unique_id_num' => $request->unique_id_num,
+                'profile_pic' => $name,
+                'address' => ucwords($request->address),
+                'barangay' => $request->barangay,
+                'street' => $request->street,
+                'phone_num' => $request->phone_num,
+                'tel_num' => $request->tel_num,
+            );
+
+            $record_id = Records::where('id', '=', $request->id)->update($data);
+
+            $data_cp = array(
+                'record_id' => $request->id,
+                'cp_fname' => strtoupper($request->cp_fname),
+                'cp_lname' => strtoupper($request->cp_lname),
+                'cp_mname' => strtoupper($request->cp_mname),
+                'cp_ename' => strtoupper($request->cp_ename),
+                'relationship' => ucwords($request->relationship),
+                'cp_address' => ucwords($request->cp_address),
+                'cp_phone_num' => $request->cp_phone_num,
+                'cp_tel_num' => $request->cp_tel_num,
+            );
+
+            $resultData = ContactPerson::where('id', '=', $request->cs_id)->update($data_cp);
+        }
+
+        if ($resultData) {
+            return redirect('/admin-record')->with('message', 'success');
+        } else {
+            return redirect('/admin-record')->with('message', 'error');
+        }
     }
 
     public function getBorrowPage()
@@ -234,6 +350,71 @@ class AdminController extends Controller
 
             $resultData = ContactPerson::where('id', '=', $request->cs_id)->update($data_cp);
         }
+
+        if ($resultData) {
+            return redirect('/admin-record')->with('message', 'success');
+        } else {
+            return redirect('/admin-record')->with('message', 'error');
+        }
+    }
+
+    public function saveMembers(Request $request){
+        $this->validate($request, [
+            'profile_photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        if ($request->hasFile('profile_photo')) {
+            $image = $request->file('profile_photo');
+            $name = md5(time() . "-" . $request->file('profile_photo')->getClientOriginalName()) . '.' . $image->getClientOriginalExtension();
+            $destinationPath = public_path('/images');
+
+            if (File::isDirectory($destinationPath)) {
+                $image->move($destinationPath, $name);
+            } else {
+                File::makeDirectory($destinationPath);
+                $image->move($destinationPath, $name);
+            }
+        }
+
+        $lastID = DB::table('member')->selectRaw('max(id) as id')->first()->id != 0 ? DB::table('member')->selectRaw('max(id) as id')->first()->id : 1;
+        $unique_id_num = str_pad(mt_rand(1, 99999999), 3, '0', STR_PAD_LEFT) . '-' . str_pad($lastID, 3, '0', STR_PAD_LEFT);;
+        $data = array(
+            'fname' => strtoupper($request->fname),
+            'lname' => strtoupper($request->lname),
+            'mname' => strtoupper($request->mname),
+            'ename' => strtoupper($request->ename),
+            'gender' => $request->gender,
+            'birthdate' => date('Y-m-d', strtotime($request->birthdate)),
+            'placeofbirth' => $request->placeofbirth,
+            'civil_status' => $request->civil_status,
+            'occupation' => $request->occupation,
+            'contactnumber' => $request->contactnumber,
+            'validno' => $request->validno,
+            'tin' => $request->tin,
+            'street' => $request->street,
+            'barangay' => $request->barangay,
+            'municipality' => $request->municipality,
+            'province' => $request->province,
+            'areatilage' => $request->areatilage,
+            'location' => $request->location,
+            'othersource' => $request->othersource,
+            'tenurialstatus' => $request->tenurialstatus,
+            'passbooknumber' => $request->passbooknumber,
+            'emailaddress' => $request->emailaddress,
+            'ornumber' => $request->ornumber,
+            'unique_id_num' => $unique_id_num,
+            'profile_pic' => 'public/images/' . $name
+        );
+
+        $record_id = Member::create($data);
+
+        $data_sc = array(
+            'member_id' => $record_id->id,
+            'capital' => $request->capital,
+            'ornumber' => $record_id->ornumber
+        );
+
+        $resultData = Sharedcapital::create($data_sc);
 
         if ($resultData) {
             return redirect('/admin-record')->with('message', 'success');

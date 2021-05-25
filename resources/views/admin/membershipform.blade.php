@@ -42,6 +42,8 @@
                         </div>
                     @endif
                 </div>
+                <form id="addmember" method="POST" action="{{ url('/save-member') }}" enctype="multipart/form-data">
+                    @csrf
                 <div class="row">
                     <div class="col-md-12">
                         <div class="row">
@@ -77,7 +79,7 @@
                             <div class="row">
                                 <div class="col-md-3">
                                     <label for="gender">Gender<span style="color:red;">*</span></label>
-                                    <select class="form-control" id="gender">
+                                    <select class="form-control select2" id="gender">
                                         <option value="" disabled selected>Select Gender</option>
                                         <option value="Male">Male</option>
                                         <option value="Female">Female</option>
@@ -100,7 +102,7 @@
                             <div class="row">
                                 <div class="col-md-3">
                                     <label for="civil_status">Civil Status<span style="color:red;">*</span></label>
-                                    <select class="form-control" id="civil_status">
+                                    <select class="form-control select2" id="civil_status">
                                         <option value="" disabled selected>Select Civil Status</option>
                                         <option value="Single">Single</option>
                                         <option value="Married">Married</option>
@@ -198,14 +200,15 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <button onclick="saveMember()" class="btn btn-primary float-right">Save Member</button>
+                                    {{-- <button onclick="saveMember()" class="btn btn-primary float-right">Save Member</button> --}}
+                                    <button type="submit" class="btn btn-primary">Save Member</button>
                                 </div>
                             </div>
 
                         </div>
                     </div>
                 </div>
-
+                </form>
             </div>
             <!-- /.box-body -->
         </div>
@@ -426,6 +429,10 @@
     }
     // return age;
     $('#age').val(age);
+}
+
+function saveMember(){
+
 }
 </script>
 @endsection

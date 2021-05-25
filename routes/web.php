@@ -26,6 +26,8 @@ Route::get('/admin', 'AdminController@index');
 Route::get('/admin-profile', 'AdminController@adminProfile');
 Route::get('/admin-record', 'AdminController@getSeniorCitizenPage');
 Route::get('/membership-form', 'AdminController@getMembershipFormPage');
+Route::post('/save-member', 'AdminController@saveMembers');
+
 Route::get('/borrow', 'AdminController@getBorrowPage');
 Route::post('/save-record', 'AdminController@saveRecord');
 Route::post('/admin-get-provinces', 'AdminController@getProvinces');
