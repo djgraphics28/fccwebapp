@@ -365,8 +365,8 @@
             ajax: "{{url('/admin-get-records')}}",
             columns: [
                 { data: 'unique_id_num', name: 'id' },
-                { data: 'fullname', name: 'name' },
-                { data: 'birthdate', name: 'age' },
+                { data: 'fullname', name: 'fname' },
+                { data: 'birthdate', name: 'birthdate' },
                 { data: 'gender', name: 'gender' },
                 { data: 'action', name: 'action', className: 'text-center' }
             ]

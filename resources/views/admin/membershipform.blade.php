@@ -60,26 +60,26 @@
                             <div class="row">
                                 <div class="col-md-3">
                                     <label for="lname">Lastname<span style="color:red;">*</span></label>
-                                    <input type="text" class="form-control" placeholder="ex. dela Cruz" id="lname" onkeyup="this.value = this.value.toUpperCase();" >
+                                    <input type="text" class="form-control" placeholder="ex. dela Cruz" name="lname" id="lname" onkeyup="this.value = this.value.toUpperCase();" >
                                 </div>
                                 <div class="col-md-3">
                                     <label for="fname">Firstname<span style="color:red;">*</span></label>
-                                    <input type="text" class="form-control" placeholder="ex. Juan" id="fname" onkeyup="this.value = this.value.toUpperCase();">
+                                    <input type="text" class="form-control" placeholder="ex. Juan" name="fname" id="fname" onkeyup="this.value = this.value.toUpperCase();">
                                 </div>
                                 <div class="col-md-3">
                                     <label for="mname">Middlename</label>
-                                    <input type="text" class="form-control" placeholder="ex. Bonifacio" id="mname" onkeyup="this.value = this.value.toUpperCase();">
+                                    <input type="text" class="form-control" placeholder="ex. Bonifacio" name="mname" id="mname" onkeyup="this.value = this.value.toUpperCase();">
                                 </div>
                                 <div class="col-md-3">
                                     <label for="ename">Extensionname</label>
-                                    <input type="text" class="form-control" placeholder="ex. JR. , II, III" id="ename" onkeyup="this.value = this.value.toUpperCase();">
+                                    <input type="text" class="form-control" placeholder="ex. JR. , II, III" name="ename" id="ename" onkeyup="this.value = this.value.toUpperCase();">
                                 </div>
                             </div>
                             <hr>
                             <div class="row">
                                 <div class="col-md-3">
                                     <label for="gender">Gender<span style="color:red;">*</span></label>
-                                    <select class="form-control select2" id="gender">
+                                    <select class="form-control select2" name="gender" id="gender">
                                         <option value="" disabled selected>Select Gender</option>
                                         <option value="Male">Male</option>
                                         <option value="Female">Female</option>
@@ -87,7 +87,7 @@
                                 </div>
                                 <div class="col-md-3">
                                     <label for="bdate">Birth Date<span style="color:red;">*</span></label>
-                                    <input type="date" onchange="calage()" class="form-control" id="bdate">
+                                    <input type="date" onchange="calage()" class="form-control" name="birthdate" id="birthdate">
                                 </div>
                                 <div class="col-md-1">
                                     <label for="age">Age</label>
@@ -95,36 +95,36 @@
                                 </div>
                                 <div class="col-md-5">
                                     <label for="pob">Place of Birth</label>
-                                    <input type="text" class="form-control" placeholder="ex. Binalonan, Pangasinan" id="pob" onkeyup="this.value = this.value.toUpperCase();">
+                                    <input type="text" class="form-control" placeholder="ex. Binalonan, Pangasinan" name="placeofbirth" id="placeofbirth" onkeyup="this.value = this.value.toUpperCase();">
                                 </div>
                             </div>
                             <hr>
                             <div class="row">
                                 <div class="col-md-3">
                                     <label for="civil_status">Civil Status<span style="color:red;">*</span></label>
-                                    <select class="form-control select2" id="civil_status">
+                                    <select class="form-control select2" name="civil_status" id="civil_status">
                                         <option value="" disabled selected>Select Civil Status</option>
-                                        <option value="Single">Single</option>
-                                        <option value="Married">Married</option>
-                                        <option value="Widowed">Widowed</option>
+                                        <option value="1">Single</option>
+                                        <option value="2">Married</option>
+                                        <option value="3">Widowed</option>
                                     </select>
                                     </select>
                                 </div>
                                 <div class="col-md-3">
                                     <label for="occupation">Occupation</label>
-                                    <input type="text" class="form-control" placeholder="ex. Farmer" id="occupation" onkeyup="this.value = this.value.toUpperCase();">
+                                    <input type="text" class="form-control" placeholder="ex. Farmer" name="occupation" id="occupation" onkeyup="this.value = this.value.toUpperCase();">
                                 </div>
                                 <div class="col-md-2">
                                     <label for="contact">Contact Number</label>
-                                    <input type="text" class="form-control" placeholder="ex. 09*********" id="contact">
+                                    <input type="text" class="form-control" placeholder="ex. 09*********" name="contactnumber" id="contactnumber">
                                 </div>
                                 <div class="col-md-2">
                                     <label for="validno">ValidNo</label>
-                                    <input type="text" class="form-control" placeholder="ex. 09*********" id="validno">
+                                    <input type="text" class="form-control" placeholder="ex. 09*********" name="validno" id="validno">
                                 </div>
                                 <div class="col-md-2">
                                     <label for="tin">TIN</label>
-                                    <input type="text" class="form-control" placeholder="ex. 123-7777-233" id="tin">
+                                    <input type="text" class="form-control" placeholder="ex. 123-7777-233" name="tin" id="tin">
                                 </div>
 
                             </div>
@@ -141,58 +141,58 @@
                         <label for="">Member Address: </label>
                         <div class="row">
                             <div class="col-md-3">
-                                <label for="no_street">No. / Street</label>
-                                <input type="text" class="form-control" placeholder="ex. #123 Sta fe Street" id="no_street">
+                                <label for="street">No. / Street</label>
+                                <input type="text" class="form-control" placeholder="ex. #123 Sta fe Street" name="street" id="street">
                             </div>
                             <div class="col-md-3">
                                 <label for="barangay">Barangay</label>
-                                <input type="text" class="form-control" placeholder="ex. Mangcasuy" id="barangay">
+                                <input type="text" class="form-control" placeholder="ex. Mangcasuy" name="barangay" id="barangay">
                             </div>
                             <div class="col-md-3">
-                                <label for="municipal">Municipality</label>
-                                <input type="text" class="form-control" placeholder="ex. San Quintin" id="municipal">
+                                <label for="municipality">Municipality</label>
+                                <input type="text" class="form-control" placeholder="ex. San Quintin" name="municipality" id="municipality">
                             </div>
                             <div class="col-md-3">
                                 <label for="province">Province</label>
-                                <input type="text" class="form-control" placeholder="ex. Pangasinan" id="province">
+                                <input type="text" class="form-control" placeholder="ex. Pangasinan" name="province" id="province">
                             </div>
                         </div>
                         <hr>
                         <div class="row">
                             <div class="col-md-3">
-                                <label for="area_tilage">Area Tilage</label>
-                                <input type="text" class="form-control" placeholder="ex. #123" id="area_tilage">
+                                <label for="areatilage">Area Tilage</label>
+                                <input type="text" class="form-control" placeholder="ex. #123" name="areatilage" id="areatilage">
                             </div>
                             <div class="col-md-3">
                                 <label for="location">Location</label>
-                                <input type="text" class="form-control" placeholder="ex. San Quintin" id="location">
+                                <input type="text" class="form-control" placeholder="ex. San Quintin" name="location" id="location">
                             </div>
                             <div class="col-md-3">
-                                <label for="other_source">Other Source of income</label>
-                                <input type="text" class="form-control" placeholder="ex. *******" id="other_source">
+                                <label for="othersource">Other Source of income</label>
+                                <input type="text" class="form-control" placeholder="ex. *******" name="othersource" id="othersource">
                             </div>
                             <div class="col-md-3">
-                                <label for="tenurial_status">Tenurial Status</label>
-                                <input type="text" class="form-control" placeholder="ex. Pangasinan" id="tenurial_status">
+                                <label for="tenurialstatus">Tenurial Status</label>
+                                <input type="text" class="form-control" placeholder="ex. Pangasinan" name="tenurialstatus" id="tenurialstatus">
                             </div>
                         </div>
                         <hr>
                         <div class="row">
                             <div class="col-md-3">
-                                <label for="passbook_number">Passbook Number</label>
-                                <input type="text" class="form-control" placeholder="ex. 432" id="passbook_number">
+                                <label for="passbooknumber">Passbook Number</label>
+                                <input type="text" class="form-control" placeholder="ex. 432" name="passbooknumber" id="passbooknumber">
                             </div>
                             <div class="col-md-3">
-                                <label for="emailadd">Email Address</label>
-                                <input type="email" class="form-control" placeholder="ex. example@gmail.com" id="emailadd">
+                                <label for="emailaddress">Email Address</label>
+                                <input type="email" class="form-control" placeholder="ex. example@gmail.com" name="emailaddress" id="emailaddress">
                             </div>
                             <div class="col-md-3">
                                 <label for="capital">Shared Capital(min. of 2000.00)</label>
-                                <input type="number" class="form-control"  id="capital">
+                                <input type="number" class="form-control" name="capital"  id="capital">
                             </div>
                             <div class="col-md-3">
-                                <label for="or_number">OR Number</label>
-                                <input type="text" class="form-control"  id="or_number">
+                                <label for="ornumber">OR Number</label>
+                                <input type="text" class="form-control" name="ornumber"  id="ornumber">
                             </div>
 
                         </div>
@@ -414,7 +414,7 @@
     });
 
     function calage(){
-    var bdate = $('#bdate').val();
+    var bdate = $('#birthdate').val();
 
     // var mydate = new Date(bdate);
     // var str = mydate.toDateString("MMMM yyyy");

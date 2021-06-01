@@ -96,9 +96,9 @@
                                         <label for="">Search Member Name</label>
                                         <select name="member" id="member" class="form-control select2" style="width: 100%;" required>
                                             <option disabled selected>[ Search Member's Name ]</option>
-                                            {{-- @foreach ($records as $item)
+                                            @foreach ($records as $item)
                                             <option value="{{ $item->id }}">{{ $item->fname.' '.$item->mname.' '.$item->lname }} {{ isset($item->ename) ? ' '.$item->ename : '' }}</option>
-                                            @endforeach --}}
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>

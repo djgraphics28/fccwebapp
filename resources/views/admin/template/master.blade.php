@@ -200,7 +200,7 @@
           </li>
         <li class="{{ strpos(Request::url(), 'contribution') == true ? 'active' : '' }}">
           <a href="{{ url('/admin-senior-contributions') }}">
-            <i class="glyphicon glyphicon-piggy-bank"></i> <span>Manage Contribution</span>
+            <i class="glyphicon glyphicon-piggy-bank"></i> <span>Manage Shared Capital</span>
           </a>
         </li>
         <li class="{{ strpos(Request::url(), 'borrow') == true ? 'active' : '' }}">

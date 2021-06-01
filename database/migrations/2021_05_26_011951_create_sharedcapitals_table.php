@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSharedcapitalTable extends Migration
+class CreateSharedcapitalsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateSharedcapitalTable extends Migration
      */
     public function up()
     {
-        Schema::create('sharedcapital', function (Blueprint $table) {
+        Schema::create('sharedcapitals', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('member_id');
             $table->integer('capital');
@@ -29,6 +29,6 @@ class CreateSharedcapitalTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sharedcapital');
+        Schema::dropIfExists('sharedcapitals');
     }
 }
