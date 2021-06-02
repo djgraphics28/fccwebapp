@@ -29,6 +29,7 @@ Route::get('/membership-form', 'AdminController@getMembershipFormPage');
 Route::post('/save-member', 'AdminController@saveMembers');
 
 Route::get('/borrow', 'AdminController@getBorrowPage');
+Route::get('/save-borrow', 'AdminController@saveBorrow');
 Route::post('/save-record', 'AdminController@saveRecord');
 Route::post('/admin-get-provinces', 'AdminController@getProvinces');
 Route::post('/admin-get-cities', 'AdminController@getCities');

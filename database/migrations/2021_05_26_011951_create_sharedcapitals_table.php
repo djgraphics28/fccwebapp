@@ -15,7 +15,7 @@ class CreateSharedcapitalsTable extends Migration
     {
         Schema::create('sharedcapitals', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('member_id');
+            $table->integer('user_id');
             $table->integer('capital');
             $table->string('ornumber');
             $table->timestamps();

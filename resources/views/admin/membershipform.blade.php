@@ -104,9 +104,9 @@
                                     <label for="civil_status">Civil Status<span style="color:red;">*</span></label>
                                     <select class="form-control select2" name="civil_status" id="civil_status">
                                         <option value="" disabled selected>Select Civil Status</option>
-                                        <option value="1">Single</option>
-                                        <option value="2">Married</option>
-                                        <option value="3">Widowed</option>
+                                        @foreach ($civil_status as $item)
+                                            <option value="{{ $item->id }}">{{ isset($item->name) ? ''.$item->name : '' }}</option>
+                                        @endforeach
                                     </select>
                                     </select>
                                 </div>
@@ -145,17 +145,28 @@
                                 <input type="text" class="form-control" placeholder="ex. #123 Sta fe Street" name="street" id="street">
                             </div>
                             <div class="col-md-3">
-                                <label for="barangay">Barangay</label>
-                                <input type="text" class="form-control" placeholder="ex. Mangcasuy" name="barangay" id="barangay">
+                                <label for="provinces">Province</label>
+                                <select class="form-control select2" name="provinces" id="provinces">
+                                    <option value="" disabled selected>[ Select Province ]</option>
+                                    @foreach ($provinces as $item)
+                                        <option value="{{ $item->id }}">{{ isset($item->province_description) ? ' ' .$item->province_description : '' }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                             <div class="col-md-3">
                                 <label for="municipality">Municipality</label>
-                                <input type="text" class="form-control" placeholder="ex. San Quintin" name="municipality" id="municipality">
+                                <select class="form-control select2" name="municipality" id="municipality">
+                                    <option value="" disabled selected>[ Select Province ]</option>
+                                    @foreach ($cities as $item)
+                                        <option value="{{ $item->id }}">{{ isset($item->city_municipality_description) ? ' ' .$item->city_municipality_description : '' }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                             <div class="col-md-3">
-                                <label for="province">Province</label>
-                                <input type="text" class="form-control" placeholder="ex. Pangasinan" name="province" id="province">
+                                <label for="barangays">Barangay</label>
+                                <input type="text" class="form-control" placeholder="ex. Poblacion" name="barangays" id="barangays">
                             </div>
+
                         </div>
                         <hr>
                         <div class="row">

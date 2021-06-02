@@ -16,11 +16,16 @@ use App\ContactPerson;
 use App\Allowances;
 use App\CivilStatus;
 use App\Contribution;
+use App\Borrow;
 use App\Pension;
 use App\User;
 use App\UserProfile;
 use App\Members;
 use App\Sharedcapitals;
+use App\Philippine_barangays;
+use App\Philippine_cities;
+use App\Philippine_provinces;
+use App\Philippine_regions;
 use App;
 /* plugin */
 use Yajra\Datatables\Datatables;
@@ -70,11 +75,12 @@ class AdminController extends Controller
 
     public function adminProfile()
     {
-        $data['title'] = "Admin Profile";
+        $data['title'] = "User Profile";
         $data['base_url'] = App::make("url")->to('/');
         $data['data'] = DB::table('user_profile')
             ->join('civil_status', 'user_profile.user_civil_status', '=', 'civil_status.id')
-            ->join('barangays', 'user_profile.user_brgy', '=', 'barangays.id')
+            // ->join('barangays', 'user_profile.user_brgy', '=', 'barangays.id')
+            ->join('sharedcapitals', 'user_profile.user_id', '=', 'sharedcapitals.user_id')
             ->selectRaw('user_profile.id,
                         user_profile.user_id,
                         user_profile.user_profile_pic,
@@ -86,9 +92,13 @@ class AdminController extends Controller
                         user_profile.user_phone_num,
                         user_profile.user_civil_status,
                         user_profile.user_brgy,
-                        barangays.name as brgy,
+                        sharedcapitals.capital,
+                        sharedcapitals.ornumber,
+                        sharedcapitals.created_at,
                         civil_status.name as civil_status')
             ->where('user_id', Auth::user()->id)->get();
+
+        // $data['capital'] = Sharedcapitals::where('member_id',Auth::user()->id);
         $data['prof_pic'] = UserProfile::where('user_id', Auth::user()->id)->select('user_profile_pic')->pluck('user_profile_pic');
 
         return view('admin.profile', $data);
@@ -108,8 +118,11 @@ class AdminController extends Controller
     public function getMembershipFormPage()
     {
         $data['title'] = "Membership Form";
-        // $data['barangays'] = Barangay::all();
-        // $data['civil_status'] = CivilStatus::all();
+        $data['barangays'] = Philippine_barangays::all();
+        $data['cities'] = Philippine_cities::all();
+        $data['provinces'] = Philippine_provinces::all();
+        $data['regions'] = Philippine_regions::all();
+        $data['civil_status'] = CivilStatus::all();
         $data['base_url'] = App::make("url")->to('/');
         // $data['prof_pic'] = UserProfile::where('user_id', Auth::user()->id)->select('user_profile_pic')->pluck('user_profile_pic');
 
@@ -239,7 +252,7 @@ class AdminController extends Controller
         // $data['civil_status'] = CivilStatus::all();
         $data['base_url'] = App::make("url")->to('/');
         $data['records'] = Members::all();
-        // $data['prof_pic'] = UserProfile::where('user_id', Auth::user()->id)->select('user_profile_pic')->pluck('user_profile_pic');
+        $data['prof_pic'] = UserProfile::where('user_id', Auth::user()->id)->select('user_profile_pic')->pluck('user_profile_pic');
 
         return view('admin.borrow', $data);
     }
@@ -395,9 +408,9 @@ class AdminController extends Controller
             'validno' => $request->validno,
             'tin' => $request->tin,
             'street' => $request->street,
-            'barangay' => $request->barangay,
+            'barangay' => $request->barangays,
             'municipality' => $request->municipality,
-            'province' => $request->province,
+            'province' => $request->provinces,
             'areatilage' => $request->areatilage,
             'location' => $request->location,
             'othersource' => $request->othersource,
@@ -411,8 +424,32 @@ class AdminController extends Controller
 
         $record_id = Members::create($data);
 
+        $data_user = array(
+            'name' => $request->fname,
+            'email' => $request->emailaddress,
+            'user_type' => 2,
+            'password' => Hash::make($request->lname)
+        );
+
+        $user_id = User::create($data_user);
+
+        $data_acc_p = array(
+            'user_id' => $user_id->id,
+            'user_profile_pic' => !empty($name) ? $name : '',
+            'user_birthdate' => date('Y-m-d', strtotime($request->birthdate)),
+            'user_civil_status' => $request->civil_status,
+            'user_gender' => $request->gender,
+            'user_address' => ucwords($request->street),' ',ucwords($request->barangay),' ',ucwords($request->municipality),
+            'user_street' => ucwords($request->street),
+            'user_brgy' => ucwords($request->barangay),
+            'user_mobile_num' => $request->contactnumber,
+            'user_phone_num' => $request->contactnumber,
+        );
+
+        $resultDataUSer = UserProfile::create($data_acc_p);
+
         $data_sc = array(
-            'member_id' => $record_id->id,
+            'user_id' => $resultDataUSer->user_id,
             'capital' => $request->capital,
             'ornumber' => $record_id->ornumber
         );
@@ -608,6 +645,52 @@ class AdminController extends Controller
         $data['prof_pic'] = UserProfile::where('user_id', Auth::user()->id)->select('user_profile_pic')->pluck('user_profile_pic');
 
         return view('admin.users', $data);
+    }
+
+    public function saveBorrow(Request $request)
+    {
+        if (!isset($request->passbooknumber)) {
+            $data = array(
+                'passbooknumber' => $request->member_id,
+                'member_id' => $request->member_id,
+                'typeofloan' => $request->type_of_loan,
+                'typeofcashloan' => $request->cashloantype,
+                'agri_item' => $request->agri_item,
+                'qty' => $request->qty,
+                'unit' => $request->unit,
+                'amount' => $request->amount,
+                'totalamount' => $request->total_amount,
+                'micro' => $request->micro,
+                'days' => $request->num_days,
+                'interest' => $request->interest
+            );
+
+            $res = Borrow::create($data);
+        }
+        // } else {
+        //     $data = array(
+        //         'passbooknumber' => $request->member_id,
+        //         'member_id' => $request->member_id,
+        //         'typeofloan' => $request->type_of_loan,
+        //         'typeofcashloan' => $request->cashloantype,
+        //         'agri_item' => $request->agri_item,
+        //         'qty' => $request->qty,
+        //         'unit' => $request->unit,
+        //         'amount' => $request->amount,
+        //         'totalamount' => $request->total_amount,
+        //         'micro' => $request->micro,
+        //         'days' => $request->num_days,
+        //         'interest' => $request->interest
+        //     );
+
+        //     $res = Borrow::where('id', '=', $request->id)->update($data);
+        // }
+
+        if ($res) {
+            return redirect('/borrow')->with('message', 'success');
+        } else {
+            return redirect('/borrow')->with('message', 'error');
+        }
     }
 
     public function saveContribution(Request $request)

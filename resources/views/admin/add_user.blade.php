@@ -118,7 +118,10 @@
                                         <select name="user_type" id="user_type" class="form-control select2"  style="width: 100%;">
                                             <option selected disabled>Select User Type</option>
                                             <option value="1">Admin</option>
-                                            <option value="2">Normal User</option>
+                                            <option value="2">Borrower</option>
+                                            <option value="3">CI</option>
+                                            <option value="4">Treasurer</option>
+                                            <option value="5">Board of Directors</option>
                                         </select>
                                     </div>
                                 </div>

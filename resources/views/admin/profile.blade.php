@@ -56,6 +56,7 @@
                 <ul class="nav nav-tabs">
                     <li class="active"><a href="#info" data-toggle="tab" aria-expanded="false">Info</a></li>
                     <li class=""><a href="#settings" data-toggle="tab" aria-expanded="false">Settings</a></li>
+                    <li class=""><a href="#sharedcapital" data-toggle="tab" aria-expanded="false">Shared Capital</a></li>
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane active" id="info">
@@ -122,6 +123,30 @@
                             <span class="text-right">
                                 <button class="btn btn-primary" type="submit">Save</button>
                             </span>
+                        </form>
+                    </div>
+                    <!-- /.tab-pane -->
+
+                    <div class="tab-pane active" id="sharedcapital">
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <label for="" class="col-sm-3 control-label">Shared Capital Amount</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" readonly="" value="{{ isset($value) ? $value->capital : '' }}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="col-sm-3 control-label">OR Number</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" readonly="" value="{{ isset($value) ? $value->ornumber : '' }}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="col-sm-3 control-label">Date Paid</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" readonly="" value="{{ isset($value) ? $value->created_at : '' }}">
+                                </div>
+                            </div>
                         </form>
                     </div>
                     <!-- /.tab-pane -->

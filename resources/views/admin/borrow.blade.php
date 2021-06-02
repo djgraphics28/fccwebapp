@@ -94,10 +94,11 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="">Search Member Name</label>
-                                        <select name="member" id="member" class="form-control select2" style="width: 100%;" required>
+                                        <select name="member_id" id="member_id" class="form-control select2" style="width: 100%;" required>
                                             <option disabled selected>[ Search Member's Name ]</option>
                                             @foreach ($records as $item)
-                                            <option value="{{ $item->id }}">{{ $item->fname.' '.$item->mname.' '.$item->lname }} {{ isset($item->ename) ? ' '.$item->ename : '' }}</option>
+
+                                            <option value="{{ $item->passbooknumber }}">{{ $item->fname.' '.$item->mname.' '.$item->lname }} {{ isset($item->ename) ? ' '.$item->ename : '' }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -106,10 +107,7 @@
                                     <div class="form-group">
                                         <label for="">Type of Loan</label>
                                         <select name="type_of_loan" id="type_of_loan" class="form-control select2" style="width: 100%;" required>
-                                            {{-- <option disabled selected>[ Select Senior Citizen ]</option>
-                                            @foreach ($records as $item)
-                                            <option value="{{ $item->id }}">{{ $item->fname.' '.$item->mname.' '.$item->lname }} {{ isset($item->ename) ? ' '.$item->ename : '' }}</option>
-                                            @endforeach --}}
+
                                             <option selected disabled>[ Select Type of Loan ]</option>
                                             <option value="Agri Loan">Agri Loan</option>
                                             <option value="Cash Loan">Cash Loan</option>
@@ -117,10 +115,8 @@
                                     </div>
                                 </div>
                                 <div class="col-md-12">
-                                    <label for="">Amount</label>
-                                    <div class="input-group">
-                                        <span class="input-group-addon">&#8369;</span>
-                                        <input type="text" name="amount" id="contribution" class="form-control" required>
+                                    <div id="divAmount">
+
                                     </div>
                                 </div>
                             </div>
@@ -292,5 +288,119 @@
             });
         });
     });
+
+
+    // $('#type_of_loan').on('change', function(){
+    //     var typeofloan = $('#type_of_loan').val();
+    //     if( typeofloan == "Agri Loan"){
+    //         $('$divAmount').append(
+    //             "<label for='amount'>Amount</label>"
+    //                 +"<div class='input-group'>"
+    //                     +"<span class='input-group-addon'>&#8369;</span>"
+    //                     +"<input type='text' name='amount' id='amount' class='form-control' required>"
+    //                 +"</div>"
+
+    //         )
+    //     }
+    // })
+
+    $('#type_of_loan').on('change',function(){
+    var type_of_loan = $('#type_of_loan').val();
+
+    $('#divAmount div').remove();
+    if(type_of_loan == "Agri Loan"){
+        $('#divAmount').append(
+            "<div>"
+                +"<div class='form-group'>"
+                    +"<label for='agri_item'>Agri Item</label>"
+                    +"<select name='agri_item' id='agri_item' class='form-control select2' style='width: 100%;' required>"
+                        +"<option selected disabled>[ Select Agri Item ]</option>"
+                        +"<option value='Urea Swire'>Urea Swire</option>"
+                        +"<option value='Fertilizer'>Fertilizer</option>"
+                    +"</select>"
+                +"</div>"
+                +"<div class='form-group'>"
+                        +"<label for='cashloan'>Item Quantity</label>"
+                        +"<input type='number' class='form-control' name='qty' id='qty'>"
+                +"</div>"
+                +"<div class='form-group'>"
+                    +"<label for='unit'>Unit</label>"
+                    +"<select name='unit' id='unit' class='form-control select2' style='width: 100%;' required>"
+                        +"<option selected disabled>[ Select Unit ]</option>"
+                        +"<option value='1'>Kilogram</option>"
+                        +"<option value='2'>Bag</option>"
+                    +"</select>"
+                +"</div>"
+                +"<div class='form-group'>"
+                    +"<label for='amount'>Amount per Unit</label>"
+                        +"<input type='text' class='form-control' onkeyup='computeTotalAmount()'  id='amount' name='amount'>"
+                +"</div>"
+                +"<div class='form-group'>"
+                    +"<label for='total_amount'>Total Amount</label>"
+                        +"<input type='text' disabled class='form-control'  id='total_amount' name='total_amount'>"
+                    +"</div>"
+                +"</div>"
+                +"<div class='form-group'>"
+                    +"<label for='micro'>Micro</label>"
+                        +"<input type='text' class='form-control' placeholder='(Optional)'  id='micro' name='micro'>"
+                +"</div>"
+                +"<div class='form-group'>"
+                    +"<label for='num_days'>Days</label>"
+                        +"<input type='number' class='form-control' placeholder='Enter Number of days' id='num_days' name='num_days'>"
+                +"</div>"
+                +"<div class='form-group'>"
+                    +"<label for='interest'>Total Amount</label>"
+                        +"<input type='number' disabled class='form-control'  id='interest' name='interest' placeholder='2.00 %'>"
+                    +"</div>"
+                +"</div>"
+            +"</div>"
+        )
+    }else if(type_of_loan == "Cash Loan"){
+        $('#divAmount').append(
+            "<div>"
+                +"<div class='form-group'>"
+                    +"<label for='cashloan'>Type of Cash Loan</label>"
+                        +"<select name='cashloantype' id='cashloantype' class='form-control select2' style='width: 100%;' required>"
+                            +"<option selected disabled>[ Select Type of Cash Loan ]</option>"
+                            +"<option value='Emergency Loan'>Emergency Loan</option>"
+                    +"</select>"
+                +"</div>"
+                +"<div class='form-group'>"
+                    +"<label for='cashloan'>Amount</label>"
+                        +"<input type='number' class='form-control' name='cashamount'  id='cashamount'>"
+                +"</div>"
+
+                +"<div class='form-group'>"
+                    +"<label for='micro'>Micro</label>"
+                        +"<input type='text' class='form-control' placeholder='(Optional)'  id='micro' name='micro'>"
+                +"</div>"
+                +"<div class='form-group'>"
+                    +"<label for='num_days'>Days</label>"
+                        +"<input type='number' class='form-control' placeholder='Enter Number of days' id='num_days' name='num_days'>"
+                +"</div>"
+                +"<div class='form-group'>"
+                    +"<label for='interest'>Interest</label>"
+                        +"<input type='number' disabled class='form-control'  id='interest' placeholder='2.00 %'>"
+                +"</div>"
+            +"</div>"
+        )
+    }
+})
+
+function computeTotalAmount(){
+    var qty = $('#qty').val();
+    var amount = $('#amount').val();
+    var total;
+    total = parseFloat(qty)*parseFloat(amount);
+    var cashamount = $('#cashamount').val()
+    console.log(total);
+     $('#total_amount').val(total);
+}
+
+function computeTotalAmount2(){
+    var cashamount = $('#cashamount').val()
+    console.log(total);
+     $('#total_amount').val(cashamount);
+}
 </script>
 @endsection

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2f2c0b9258e45843922e6a0ac1e92300",
+    "content-hash": "0033d018f06ad6fe4aef5871a8013960",
     "packages": [
         {
             "name": "arcanedev/log-viewer",
@@ -4841,6 +4841,61 @@
                 }
             ],
             "time": "2021-01-20T14:39:13+00:00"
+        },
+        {
+            "name": "woenel/prpcmblmts",
+            "version": "v1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/woenel/prpcmblmts.git",
+                "reference": "4c679b71fa2c06718ffe54928d8e63e007dab86e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/woenel/prpcmblmts/zipball/4c679b71fa2c06718ffe54928d8e63e007dab86e",
+                "reference": "4c679b71fa2c06718ffe54928d8e63e007dab86e",
+                "shasum": ""
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Woenel\\Prpcmblmts\\ServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Woenel\\Prpcmblmts\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ronnel Martinez",
+                    "email": "misc.woe@outlook.ph"
+                }
+            ],
+            "description": "Philippines region, province, cities/municipalities and barangays Laravel migration and table seeder.",
+            "keywords": [
+                "barangay",
+                "city",
+                "laravel",
+                "migration",
+                "municipality",
+                "philippines",
+                "province",
+                "region",
+                "seeder"
+            ],
+            "support": {
+                "issues": "https://github.com/woenel/prpcmblmts/issues",
+                "source": "https://github.com/woenel/prpcmblmts/tree/v1.0.2"
+            },
+            "time": "2021-04-11T01:49:26+00:00"
         },
         {
             "name": "yajra/laravel-datatables",

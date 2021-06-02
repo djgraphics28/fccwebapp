@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Sharedcapitals extends Model
 {
     protected $fillable = [
-        'member_id',
+        'user_id',
         'capital',
         'ornumber'
     ];

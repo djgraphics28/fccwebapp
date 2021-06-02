@@ -183,6 +183,7 @@
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MAIN NAVIGATION</li>
+        @if (Auth::user()->user_type == 1)
         <li class="{{ strpos(Request::url(), 'home') == true ? 'active' : '' }}">
           <a href="{{ url('/') }}">
             <i class="fa fa-dashboard"></i> <span>Dashboard</span>
@@ -203,11 +204,17 @@
             <i class="glyphicon glyphicon-piggy-bank"></i> <span>Manage Shared Capital</span>
           </a>
         </li>
+        @endif
         <li class="{{ strpos(Request::url(), 'borrow') == true ? 'active' : '' }}">
           <a href="{{ url('/borrow') }}">
             <i class="fa fa-money"></i> <span>Borrow</span>
           </a>
         </li>
+        <li class="{{ strpos(Request::url(), 'borrow') == true ? 'active' : '' }}">
+            <a href="{{ url('/borrow') }}">
+              <i class="fa fa-money"></i> <span>Borrow History</span>
+            </a>
+          </li>
         @if (Auth::user()->user_type == 1)
         <li class="{{ strpos(Request::url(), 'user') == true ? 'active' : '' }}">
           <a href="{{ url('/admin-users') }}">
