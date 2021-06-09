@@ -116,7 +116,7 @@
                         </div>
                         <div class="modal-footer">
                             <span class="pull-left"><i>Note: Fields with (<span style="color:red;">*</span>) is required.</i></span>
-                            <button type="submit" class="btn btn-primary">Save changes</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
                         </div>
                     </form>
                 </div>
