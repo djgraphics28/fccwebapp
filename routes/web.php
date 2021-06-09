@@ -56,6 +56,9 @@ Route::post('/admin-change-password', 'AdminController@changePassword');
 Route::get('/admin-edit-user/{id}', 'AdminController@editUser');
 Route::post('/change-password', 'AdminController@changeUserPassword');
 
+Route::get('/inventory', 'AdminController@getInventoryPage');
+Route::post('/save-item', 'AdminController@saveItem');
+
 // sample
 Route::get('/admin-sample', 'AdminController@getSamplePage');
 

@@ -26,6 +26,7 @@ use App\Philippine_barangays;
 use App\Philippine_cities;
 use App\Philippine_provinces;
 use App\Philippine_regions;
+use App\Agris;
 use App;
 /* plugin */
 use Yajra\Datatables\Datatables;
@@ -593,7 +594,7 @@ class AdminController extends Controller
     public function getSeniorContribution()
     {
         $user_brgy = UserProfile::where('user_id', Auth::user()->id)->select('user_brgy')->pluck('user_brgy');
-        $data['title'] = "Shared Capital";
+        $data['title'] = "Senior Citizen Contribution";
         $data['data'] = DB::table('contributions')
             ->join('records', 'contributions.senior_id', '=', 'records.id')
             ->selectRaw("CONCAT(records.fname,' ',records.mname, ' ',records.lname, ' ', CASE WHEN records.ename IS NULL THEN ' ' ELSE records.ename END) as full_name,
@@ -967,29 +968,36 @@ class AdminController extends Controller
         }
     }
 
-    public function getSamplePage(){
-        $data['title'] = "SAMPLE";
+    public function getInventoryPage(){
+        $data['title'] = "Inventory";
 
-        $data['barangays'] = Barangay::all();
+        $data['base_url'] = App::make("url")->to('/');
 
-        return view('admin.sample', $data);
+        $data['inventory'] = Agris::all();
+
+        return view('admin.inventory', $data);
     }
 
-    public function getSharedCapital(){
-        $data['title'] = "Shared Capital";
+    public function saveItem(Request $request){
+        $item_code = $request->item_name. '123';
 
-        $data['capital'] = DB::table('sharedcapitals')
-            ->join('users', 'users.id', '=', 'sharedcapitals.user_id')
-            ->selectRaw('sharedcapitals.user_id,
-                    sharedcapitals.capital,
-                    sharedcapitals.ornumber,
-                    sharedcapitals.created_at,
-                    sharedcapitals.updated_at')
-            ->where('user_id', Auth::user()->id)->get();
 
-        // $data['capital'] = Sharedcapitals::all();
 
-        return view('admin.sharedcapital', $data);
+        $data = array(
+            'item_name' => $request->item_name,
+            'item_description' => $request->item_description,
+            'item_code' => $item_code,
+            'created_by' =>  Auth::user()->id,
+            'updated_by' => Auth::user()->id,
+            'status' => 1,
+        );
+
+        $resultData = Agris::create($data);
+
+        if ($resultData) {
+            return redirect('/inventory')->with('message', 'success');
+        } else {
+            return redirect('/inventory')->with('message', 'error');
+        }
     }
-
 }

@@ -222,6 +222,12 @@
           </a>
         </li>
 
+        <li class="{{ strpos(Request::url(), 'inventory') == true ? 'active' : '' }}">
+            <a href="{{ url('/inventory') }}">
+              <i class="fa fa-table"></i> <span>Inventory</span>
+            </a>
+          </li>
+
         @endif
 
         @if (Auth::user()->user_type == 2)
