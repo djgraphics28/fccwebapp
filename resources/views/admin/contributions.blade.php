@@ -4,12 +4,12 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <a href="#" data-toggle="modal" data-target="#modal-station">
-            <button type="button" class="btn btn-success btn-sm">Add Contribution</button>
+            <button type="button" class="btn btn-success btn-sm">Add Shared Capital</button>
         </a>
 
         <ol class="breadcrumb">
             <li><a href="{{ url('/home') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="active">Senior Citizen Contribution</li>
+            <li class="active">Shared Capital</li>
         </ol>
     </section>
 
@@ -18,7 +18,7 @@
         <!-- Default box -->
         <div class="box box-primary">
             <div class="box-header with-border">
-                <h3 class="box-title">Senior Citizens Contribution List</h3>
+                <h3 class="box-title">Shared Capital List</h3>
 
                 <div class="box-tools pull-right">
                     <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
@@ -83,7 +83,7 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title">
-                                Add new Contribution
+                                Add Shared Capital
                         </h4>
                     </div>
                     <form id="add_station" method="POST" action="{{ url('/save-contribution') }}" enctype="multipart/form-data">
@@ -93,9 +93,9 @@
                                 <input type="hidden" name="id" id="id">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="">Senior Citizen</label>
+                                        <label for="">Member's Name</label>
                                         <select name="senior_id" id="senior_id" class="form-control select2" style="width: 100%;" required>
-                                            <option disabled selected>[ Select Senior Citizen ]</option>
+                                            <option disabled selected>[ Select Member ]</option>
                                             @foreach ($records as $item)
                                             <option value="{{ $item->id }}">{{ $item->fname.' '.$item->mname.' '.$item->lname }} {{ isset($item->ename) ? ' '.$item->ename : '' }}</option>
                                             @endforeach

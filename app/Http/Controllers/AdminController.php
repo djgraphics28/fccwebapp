@@ -593,7 +593,7 @@ class AdminController extends Controller
     public function getSeniorContribution()
     {
         $user_brgy = UserProfile::where('user_id', Auth::user()->id)->select('user_brgy')->pluck('user_brgy');
-        $data['title'] = "Senior Citizen Contribution";
+        $data['title'] = "Shared Capital";
         $data['data'] = DB::table('contributions')
             ->join('records', 'contributions.senior_id', '=', 'records.id')
             ->selectRaw("CONCAT(records.fname,' ',records.mname, ' ',records.lname, ' ', CASE WHEN records.ename IS NULL THEN ' ' ELSE records.ename END) as full_name,
@@ -966,4 +966,30 @@ class AdminController extends Controller
             return redirect()->back()->with('message', 'Please enter the correct old password');
         }
     }
+
+    public function getSamplePage(){
+        $data['title'] = "SAMPLE";
+
+        $data['barangays'] = Barangay::all();
+
+        return view('admin.sample', $data);
+    }
+
+    public function getSharedCapital(){
+        $data['title'] = "Shared Capital";
+
+        $data['capital'] = DB::table('sharedcapitals')
+            ->join('users', 'users.id', '=', 'sharedcapitals.user_id')
+            ->selectRaw('sharedcapitals.user_id,
+                    sharedcapitals.capital,
+                    sharedcapitals.ornumber,
+                    sharedcapitals.created_at,
+                    sharedcapitals.updated_at')
+            ->where('user_id', Auth::user()->id)->get();
+
+        // $data['capital'] = Sharedcapitals::all();
+
+        return view('admin.sharedcapital', $data);
+    }
+
 }

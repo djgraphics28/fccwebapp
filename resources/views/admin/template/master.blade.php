@@ -221,6 +221,21 @@
             <i class="fa fa-users"></i> <span>Users</span>
           </a>
         </li>
+
+        @endif
+
+        @if (Auth::user()->user_type == 2)
+        <li class="{{ strpos(Request::url(), 'sharedcapital') == true ? 'active' : '' }}">
+          <a href="{{ url('/sharedcapital') }}">
+            <i class="fa fa-money"></i> <span>Shared Capital</span>
+          </a>
+        </li>
+
+        <li class="{{ strpos(Request::url(), 'sample') == true ? 'active' : '' }}">
+            <a href="{{ url('/admin-sample') }}">
+              <i class="fa fa-users"></i> <span>Sample</span>
+            </a>
+          </li>
         @endif
       </ul>
     </section>
@@ -240,7 +255,7 @@
             <div class="pull-right hidden-xs">
               <b>Version</b> 1.0.1
             </div>
-            <strong>Copyright &copy; 2020 <a href="#">Lending Management System</a>.</strong> All rights
+            <strong>Copyright &copy; 2020 <a href="#">Loan Management System</a>.</strong> All rights
             reserved.
         </footer>
 

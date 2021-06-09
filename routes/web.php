@@ -29,7 +29,10 @@ Route::get('/membership-form', 'AdminController@getMembershipFormPage');
 Route::post('/save-member', 'AdminController@saveMembers');
 
 Route::get('/borrow', 'AdminController@getBorrowPage');
-Route::get('/save-borrow', 'AdminController@saveBorrow');
+Route::post('/save-borrow', 'AdminController@saveBorrow');
+Route::get('/sharedcapital', 'AdminController@getSharedCapital');
+
+
 Route::post('/save-record', 'AdminController@saveRecord');
 Route::post('/admin-get-provinces', 'AdminController@getProvinces');
 Route::post('/admin-get-cities', 'AdminController@getCities');
@@ -52,6 +55,9 @@ Route::post('/save-user', 'AdminController@saveUser');
 Route::post('/admin-change-password', 'AdminController@changePassword');
 Route::get('/admin-edit-user/{id}', 'AdminController@editUser');
 Route::post('/change-password', 'AdminController@changeUserPassword');
+
+// sample
+Route::get('/admin-sample', 'AdminController@getSamplePage');
 
 /* DataTables */
 Route::get('/admin-get-records', 'AdminController@getMembersData');
