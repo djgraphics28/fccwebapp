@@ -4,10 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Borrow extends Model
+class Borrows extends Model
 {
     protected $fillable = [
-        'passbooknumber',
         'member_id',
         'typeofloan',
         'typeofcashloan',

@@ -4,15 +4,12 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <a href="#" data-toggle="modal" data-target="#modal-station">
-            <button type="button" class="btn btn-success btn-sm">Add Item</button>
-        </a>
-        <a href="#" data-toggle="modal" data-target="#modal-stock">
-            <button type="button" class="btn btn-primary btn-sm">Add Stock</button>
+            <button type="button" class="btn btn-success btn-sm">Add Payment</button>
         </a>
 
         <ol class="breadcrumb">
             <li><a href="{{ url('/home') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="active">Inventory</li>
+            <li class="active">Payment</li>
         </ol>
     </section>
 
@@ -21,7 +18,7 @@
         <!-- Default box -->
         <div class="box box-primary">
             <div class="box-header with-border">
-                <h3 class="box-title">Inventory List</h3>
+                <h3 class="box-title">Payment History List</h3>
 
                 <div class="box-tools pull-right">
                     <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
@@ -45,32 +42,24 @@
                         </div>
                     @endif
                 </div>
-                <table class="table table-bordered table-hover datatable" id="inventory_tbl" width="100%">
+                <table class="table table-bordered table-hover datatable" id="contributions_tbl" width="100%">
                     <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>Item Name</th>
-                            <th>Item Code</th>
-                            <th>Description</th>
-                            <th>UnitPrice</th>
-                            <th>Stocks</th>
-                            <th>Status</th>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Pension</th>
                             <th>Created At</th>
                             <th>Updated At</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {{-- @if (isset($data)) --}}
-                        @foreach ($inventory as $item)
+                        @if (isset($data))
+                        @foreach ($data as $item)
                         <tr>
-                            <td>{{ $item->id }}</td>
-                            <td>{{ $item->item_name }}</td>
-                            <td>{{ $item->item_code }}</td>
-                            <td>{{ $item->item_description }}</td>
-                            <td class="text-center">&#8369; {{ number_format($item->amount, 2) }}</td>
-                            <td class="text-center">{{ $item->qty == null ? "0" :  $item->qty }}</td>
-                            <td>{{ $item->status == 1 ? "AVAILABLE" : "NONE" }}</td>
+                            <td>{{ $item->unique_id_num }}</td>
+                            <td>{{ $item->full_name }}</td>
+                            <td class="text-right">&#8369; {{ number_format($item->pension_amount, 2) }}</td>
                             <td>{{ date('m/d/Y h:i a', strtotime($item->created_at)) }}</td>
                             <td>{{ date('m/d/Y h:i a', strtotime($item->updated_at)) }}</td>
                             <td>
@@ -78,7 +67,7 @@
                             </td>
                         </tr>
                         @endforeach
-                        {{-- @endif --}}
+                        @endif
                     </tbody>
                 </table>
             </div>
@@ -86,7 +75,7 @@
         </div>
         <!-- /.box -->
 
-        <!-- Add Item modal -->
+        <!-- Add Record modal -->
         <div class="modal fade" id="modal-station" tabindex="-1" role="dialog">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
@@ -94,92 +83,37 @@
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title">
-                                Add Item
+                                Add new Pension
                         </h4>
                     </div>
-                    <form id="add_station" method="POST" action="{{ url('/save-item') }}" enctype="multipart/form-data">
-                        @csrf
-                        <div class="modal-body">
-                            <div class="row">
-                                <input type="hidden" name="id" id="id">
-
-                                <div class="col-md-12">
-                                    <label for="item_name">Item Name</label>
-                                    <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-amazon"></i></span>
-                                        <input type="text" name="item_name" id="item_name" class="form-control" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <label for="item_description">Description</label>
-                                    <div class="input-group">
-                                        <span class="input-group-addon">&#8369;</span>
-                                        <input type="text" name="item_description" id="item_description" class="form-control" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <label for="amount">Amount</label>
-                                    <div class="input-group">
-                                        <span class="input-group-addon">&#8369;</span>
-                                        <input type="text" name="amount" id="amount" class="form-control" required>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <span class="pull-left"><i>Note: Fields with (<span style="color:red;">*</span>) is required.</i></span>
-                            <button type="submit" class="btn btn-primary">Save</button>
-                        </div>
-                    </form>
-                </div>
-                <!-- /.modal-content -->
-            </div>
-            <!-- /.modal-dialog -->
-        </div>
-        <!-- /.Add Record modal -->
-
-
-          <!-- Add stock modal -->
-          <div class="modal fade" id="modal-stock" tabindex="-1" role="dialog">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header bg-primary">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">
-                                Add Stock
-                        </h4>
-                    </div>
-                    <form id="add_stock" method="POST" action="{{ url('/save-stock') }}" enctype="multipart/form-data">
+                    <form id="add_station" method="POST" action="{{ url('/save-pension') }}" enctype="multipart/form-data">
                         @csrf
                         <div class="modal-body">
                             <div class="row">
                                 <input type="hidden" name="id" id="id">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="">Item Name</label>
-                                        <select name="item_name" id="item_name" class="form-control select2" style="width: 100%;" required>
-                                            <option disabled selected>[ Select Item ]</option>
-                                            @foreach ($items as $item)
-                                            <option value="{{ $item->id }}">{{ $item->item_name }}</option>
+                                        <label for="">Senior Citizen</label>
+                                        <select name="senior_id" id="senior_id" class="form-control select2" style="width: 100%;" required>
+                                            <option disabled selected>[ Select Senior Citizen ]</option>
+                                            @foreach ($records as $item)
+                                            <option value="{{ $item->id }}">{{ $item->fname.' '.$item->mname.' '.$item->lname }} {{ isset($item->ename) ? ' '.$item->ename : '' }}</option>
                                             @endforeach
                                         </select>
                                     </div>
                                 </div>
-
                                 <div class="col-md-12">
-                                    <label for="">Quantity</label>
+                                    <label for="">Senior Citizen Pension</label>
                                     <div class="input-group">
-                                        <span class="input-group-addon"><i class="fa fa-list-alt"></i></span>
-                                        <input type="text" name="qty" id="qty" class="form-control" required>
+                                        <span class="input-group-addon">&#8369;</span>
+                                        <input type="text" name="amount" id="contribution" class="form-control" required>
                                     </div>
                                 </div>
-
                             </div>
                         </div>
                         <div class="modal-footer">
                             <span class="pull-left"><i>Note: Fields with (<span style="color:red;">*</span>) is required.</i></span>
-                            <button type="submit" class="btn btn-primary">Save</button>
+                            <button type="submit" class="btn btn-primary">Save changes</button>
                         </div>
                     </form>
                 </div>
@@ -227,7 +161,7 @@
 <script>
     $(document).ready(function(){
         /* datatable initialization */
-        $('#inventory_tbl').DataTable(); /* datatable initialization */
+        $('#contributions_tbl').DataTable(); /* datatable initialization */
 
         // $("#contribution").on({
         //     keyup: function() {
@@ -311,12 +245,12 @@
 
         $("#btn-edit").on('click', function() {
             $.ajax({
-                url: "{{ url('/get-contribution-data') }}",
+                url: "{{ url('/get-pension-data') }}",
                 type: "POST",
                 data: {'c_id': $(this).attr('data-id'),'_token': $('meta[name="csrf-token"]').attr('content')},
                 success: function(items) {
                     $("#senior_id").val(items.user[0].senior_id).trigger('change');
-                    $("#contribution").val(items.user[0].amount);
+                    $("#contribution").val(items.user[0].pension_amount);
                     $("#id").val(items.user[0].id);
                     $("#modal-station").modal('show');
                 }
@@ -335,7 +269,7 @@
             }).then((result) => {
                 if (result.value) {
                     $.ajax({
-                        url: "{{ url('/admin-del-contribution') }}",
+                        url: "{{ url('/admin-del-pension') }}",
                         type: "POST",
                         data: {'data': $(this).attr('data-id'),'_token': $('meta[name="csrf-token"]').attr('content')},
                         success: function(items) {
@@ -348,7 +282,7 @@
                                     showConfirmButton: true,
                                 }).then((result) => {
                                     if(result.value){
-                                        window.location = "{{ $base_url }}" + "/admin-senior-contributions";
+                                        window.location = "{{ $base_url }}" + "/admin-senior-pension";
                                     }
                                 });
                             } else {

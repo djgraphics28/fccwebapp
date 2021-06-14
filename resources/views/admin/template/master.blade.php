@@ -189,6 +189,7 @@
             <i class="fa fa-dashboard"></i> <span>Dashboard</span>
           </a>
         </li>
+
         <li class="{{ strpos(Request::url(), 'membership-form') == true ? 'active' : '' }}">
           <a href="{{ url('/membership-form') }}">
             <i class="fa fa-file"></i> <span>Membership Form</span>
@@ -204,29 +205,33 @@
             <i class="glyphicon glyphicon-piggy-bank"></i> <span>Manage Shared Capital</span>
           </a>
         </li>
-        @endif
+
         <li class="{{ strpos(Request::url(), 'borrow') == true ? 'active' : '' }}">
           <a href="{{ url('/borrow') }}">
             <i class="fa fa-money"></i> <span>Borrow</span>
           </a>
         </li>
-        <li class="{{ strpos(Request::url(), 'borrow') == true ? 'active' : '' }}">
-            <a href="{{ url('/borrow') }}">
-              <i class="fa fa-money"></i> <span>Borrow History</span>
+        <li class="{{ strpos(Request::url(), 'payment') == true ? 'active' : '' }}">
+            <a href="{{ url('/payment') }}">
+              <i class="fa fa-money"></i> <span>Manage Payment</span>
             </a>
-          </li>
-        @if (Auth::user()->user_type == 1)
-        <li class="{{ strpos(Request::url(), 'user') == true ? 'active' : '' }}">
-          <a href="{{ url('/admin-users') }}">
-            <i class="fa fa-users"></i> <span>Users</span>
-          </a>
         </li>
 
         <li class="{{ strpos(Request::url(), 'inventory') == true ? 'active' : '' }}">
             <a href="{{ url('/inventory') }}">
               <i class="fa fa-table"></i> <span>Inventory</span>
             </a>
-          </li>
+        </li>
+          <li class="{{ strpos(Request::url(), 'user') == true ? 'active' : '' }}">
+            <a href="{{ url('/admin-users') }}">
+              <i class="fa fa-users"></i> <span>Users</span>
+            </a>
+        </li>
+        <li class="{{ strpos(Request::url(), 'ci') == true ? 'active' : '' }}">
+            <a href="{{ url('/ci') }}">
+            <i class="fa fa-money"></i> <span>CI</span>
+            </a>
+        </li>
 
         @endif
 
@@ -237,12 +242,51 @@
           </a>
         </li>
 
-        <li class="{{ strpos(Request::url(), 'sample') == true ? 'active' : '' }}">
+        {{-- <li class="{{ strpos(Request::url(), 'sample') == true ? 'active' : '' }}">
             <a href="{{ url('/admin-sample') }}">
               <i class="fa fa-users"></i> <span>Sample</span>
             </a>
-          </li>
+          </li> --}}
         @endif
+
+        @if (Auth::user()->user_type == 2)
+
+            <li class="{{ strpos(Request::url(), 'borrow') == true ? 'active' : '' }}">
+                <a href="{{ url('/borrow') }}">
+                <i class="fa fa-money"></i> <span>Loan History</span>
+                </a>
+            </li>
+
+        @endif
+
+        @if (Auth::user()->user_type == 3)
+
+            <li class="{{ strpos(Request::url(), 'ci') == true ? 'active' : '' }}">
+                <a href="{{ url('/ci') }}">
+                <i class="fa fa-money"></i> <span>CI</span>
+                </a>
+            </li>
+
+        @endif
+
+        @if (Auth::user()->user_type == 4)
+            <li class="{{ strpos(Request::url(), 'home') == true ? 'active' : '' }}">
+                <a href="{{ url('/') }}">
+                <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+                </a>
+            </li>
+
+            <li class="{{ strpos(Request::url(), 'borrow') == true ? 'active' : '' }}">
+                <a href="{{ url('/borrow') }}">
+                <i class="fa fa-money"></i> <span>Member List</span>
+                </a>
+            </li>
+
+        @endif
+
+
+
+
       </ul>
     </section>
     <!-- /.sidebar -->

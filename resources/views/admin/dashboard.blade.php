@@ -15,60 +15,74 @@
 
     <!-- Main content -->
     <section class="content">
+        <div class="row">
+            <div class="col-lg-3 col-xs-6">
+              <!-- small box -->
+              <div class="small-box bg-aqua">
+                <div class="inner">
+                  <h3>150</h3>
 
-        <!-- Gender report -->
-        <div class="col-md-12">
-            <!-- Default box -->
-            <div class="box box-primary">
-                <div class="box-header with-border">
-                    <h3 class="box-title">Gender Report</h3>
-
-                    <div class="box-tools pull-right">
-                        <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                            <i class="fa fa-minus"></i>
-                        </button>
-                        <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
-                            <i class="fa fa-times"></i>
-                        </button>
-                    </div>
+                  <p>Agri Items</p>
                 </div>
-                <div class="box-body">
-                    <div class="row">
-                        <div id="canvas-holder" style="width:100%">
-                            <canvas id="pieChart" width="350" height="350"></canvas>
-                        </div>
-                    </div>
+                <div class="icon">
+                  <i class="ion ion-bag"></i>
                 </div>
-                <!-- /.box-body -->
+                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+              </div>
             </div>
-            <!-- /.box -->
-        </div> <!-- gender Report -->
+            <!-- ./col -->
+            <div class="col-lg-3 col-xs-6">
+              <!-- small box -->
+              <div class="small-box bg-green">
+                <div class="inner">
+                  <h3>53</h3>
 
-        <div class="col-md-12">
-            {{-- @if (Auth::user()->user_type == 1)
-            <!-- Default box -->
-            <div class="box box-success">
-                <div class="box-header with-border">
-                  <h3 class="box-title">Report Count per Barangay</h3>
-
-                  <div class="box-tools pull-right">
-                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                    </button>
-                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-                  </div>
+                  <p>Bonafied Members</p>
                 </div>
-                <div class="box-body">
-                  <div class="chart">
-                    <canvas id="barChart" style="height: 230px; width: 510px;" height="230" width="510"></canvas>
-                  </div>
+                <div class="icon">
+                    <i class="ion ion-person-add"></i>
                 </div>
-                <!-- /.box-body -->
+                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+              </div>
             </div>
-            <!-- /.box -->
-            @endif --}}
-        </div>
+            <!-- ./col -->
+            <div class="col-lg-3 col-xs-6">
+              <!-- small box -->
+              <div class="small-box bg-yellow">
+                <div class="inner">
+                  <h3>44</h3>
+
+                  <p>Members ready to CI</p>
+                </div>
+                <div class="icon">
+                  <i class="ion ion-person-add"></i>
+                </div>
+                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+              </div>
+            </div>
+            <!-- ./col -->
+            <div class="col-lg-3 col-xs-6">
+              <!-- small box -->
+              <div class="small-box bg-red">
+                <div class="inner">
+                  <h3>65</h3>
+
+                  <p>Pending Applications</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-person-add"></i>
+                </div>
+                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+              </div>
+            </div>
+            <!-- ./col -->
+          </div>
+          <!-- /.row -->
+
+
     </section>
     <!-- /.content -->
+
 @endsection
 
 @section('js')

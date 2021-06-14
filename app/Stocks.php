@@ -4,15 +4,13 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Agris extends Model
+class Stocks extends Model
 {
     //
     protected $fillable = [
         'id',
-        'item_name',
-        'item_code',
-        'item_description',
-        'amount',
+        'item_id',
+        'qty',
         'created_by',
         'updated_by',
         'status',

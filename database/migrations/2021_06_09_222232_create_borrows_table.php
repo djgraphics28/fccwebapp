@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateBorrowTable extends Migration
+class CreateBorrowsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateBorrowTable extends Migration
      */
     public function up()
     {
-        Schema::create('borrow', function (Blueprint $table) {
+        Schema::create('borrows', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('passbooknumber');
             $table->integer('member_id');
-            $table->integer('typeofloan');
+            $table->string('typeofloan');
             $table->string('typeofcashloan')->nullable()->default(null);
             $table->string('agri_item')->nullable()->default(null);
             $table->integer('qty')->nullable()->default(1);
@@ -39,6 +38,6 @@ class CreateBorrowTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('borrow');
+        Schema::dropIfExists('borrows');
     }
 }

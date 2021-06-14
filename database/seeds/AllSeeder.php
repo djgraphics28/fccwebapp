@@ -13,8 +13,12 @@ class AllSeeder extends Seeder
     {
         $this->call([
             UserSeeder::class,
-            BarangaySeeder::class,
-            CivilStatusSeeder::class
+            // BarangaySeeder::classs
+            CivilStatusSeeder::class,
+            PhilippineBarangaysTableSeeder::class,
+            PhilippineCitiesTableSeeder::class,
+            PhilippineProvincesTableSeeder::class,
+            PhilippineRegionsTableSeeder::class
         ]);
     }
 }

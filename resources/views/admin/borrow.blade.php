@@ -45,29 +45,68 @@
                 <table class="table table-bordered table-hover datatable" id="contributions_tbl" width="100%">
                     <thead>
                         <tr>
-                            <th>ID</th>
+                            <th>#</th>
                             <th>Name</th>
-                            <th>Pension</th>
-                            <th>Created At</th>
-                            <th>Updated At</th>
+                            <th>Passbook#</th>
+                            <th>Date Loan</th>
+                            <th>Loan</th>
+                            <th>AgriLoan Amount</th>
+                            <th>CashLoan Amount</th>
+                            <th>Micro</th>
+                            <th>Days</th>
+                            <th>Interest</th>
+                            <th>SF</th>
+                            <th>Total</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {{-- @if (isset($data))
-                        @foreach ($data as $item)
+                        <?php $x=1; ?>
+                        {{-- @if (isset($data)) --}}
+                        @foreach ($records as $item)
+                        <?php
+                            if($item->typeofloan == "Cash Loan"){
+                                $interest_amount = ($item->amount *  0.02);
+                            }else{
+                                $interest_amount = (($item->qty * $item->amount) *   0.02 );
+                            }
+
+                            if($item->typeofloan == "Cash Loan"){
+                                $total_amount = 1 * $item->amount;
+                            }else{
+                                $total_amount = $item->qty * $item->amount;
+                            }
+
+                            $servicefee = $total_amount * 0.005;
+
+                            if($item->typeofloan == "Cash Loan"){
+                                $total_amount_to_pay = $interest_amount + $servicefee + $item->amount;
+                            }else{
+                                $total_amount_to_pay = $interest_amount + $servicefee + ($item->amount * $item->qty);
+                            }
+
+                        ?>
                         <tr>
-                            <td>{{ $item->unique_id_num }}</td>
-                            <td>{{ $item->full_name }}</td>
-                            <td class="text-right">&#8369; {{ number_format($item->pension_amount, 2) }}</td>
+                            <td>{{ $x }}</td>
+                            <td>{{ $item->lname.', '.$item->fname.' '.$item->mname.' '.$item->ename }}</td>
+                            <td>{{ $item->passbooknumber }}</td>
                             <td>{{ date('m/d/Y h:i a', strtotime($item->created_at)) }}</td>
-                            <td>{{ date('m/d/Y h:i a', strtotime($item->updated_at)) }}</td>
+                            <td>{{ $item->typeofloan . " (" .$item->typeofcashloan.$item->agri_item.")"}}</td>
+                            <td>{{ $item->typeofloan == "Cash Loan" ? "--.--" : $item->amount * $item->qty }}</td>
+                            <td>{{ $item->typeofloan == "Agri Loan" ? "--.--" : $item->amount }}</td>
+                            <td>{{ $item->micro }}</td>
+                            <td>{{ $item->days }}</td>
+                            <td>{{ round($interest_amount,2) }}</td>
+                            <td>{{ round($servicefee,2) }}</td>
+                            <td class="text-center">&#8369; <strong>{{ number_format($total_amount_to_pay, 2) }}</strong></td>
+
                             <td>
                                 <a href="javascript:void(0);" id="btn-edit" data-id="{{ $item->id }}" class="btn btn-xs btn-success"><i class="fa fa-pencil"></i> </a>&nbsp;<a href="javascript:void(0);" id="btn-del" data-id="{{ $item->id }}" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-trash"></i> </a>
                             </td>
                         </tr>
+                        <?php $x++; ?>
                         @endforeach
-                        @endif --}}
+                        {{-- @endif --}}
                     </tbody>
                 </table>
             </div>
@@ -96,9 +135,9 @@
                                         <label for="">Search Member Name</label>
                                         <select name="member_id" id="member_id" class="form-control select2" style="width: 100%;" required>
                                             <option disabled selected>[ Search Member's Name ]</option>
-                                            @foreach ($records as $item)
+                                            @foreach ($members as $item)
 
-                                            <option value="{{ $item->passbooknumber }}">{{ $item->fname.' '.$item->mname.' '.$item->lname }} {{ isset($item->ename) ? ' '.$item->ename : '' }}</option>
+                                            <option value="{{ $item->id }}">{{ $item->fname.' '.$item->mname.' '.$item->lname }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -350,7 +389,7 @@
                 +"</div>"
                 +"<div class='form-group'>"
                     +"<label for='interest'>Total Amount</label>"
-                        +"<input type='number' disabled class='form-control'  id='interest' name='interest' placeholder='2.00 %'>"
+                        +"<input type='number' disabled class='form-control' value='2.5' id='interest' name='interest' placeholder='2.5 %'>"
                     +"</div>"
                 +"</div>"
             +"</div>"
@@ -366,8 +405,8 @@
                     +"</select>"
                 +"</div>"
                 +"<div class='form-group'>"
-                    +"<label for='cashloan'>Amount</label>"
-                        +"<input type='number' class='form-control' name='cashamount'  id='cashamount'>"
+                    +"<label for='amount'>Amount</label>"
+                        +"<input type='number' class='form-control' name='amount'  id='amount'>"
                 +"</div>"
 
                 +"<div class='form-group'>"
@@ -380,7 +419,7 @@
                 +"</div>"
                 +"<div class='form-group'>"
                     +"<label for='interest'>Interest</label>"
-                        +"<input type='number' disabled class='form-control'  id='interest' placeholder='2.00 %'>"
+                        +"<input type='number' disabled class='form-control' value='2.5'  id='interest' name='interest' placeholder='2.5 %'>"
                 +"</div>"
             +"</div>"
         )

@@ -16,7 +16,7 @@ use App\ContactPerson;
 use App\Allowances;
 use App\CivilStatus;
 use App\Contribution;
-use App\Borrow;
+use App\Borrows;
 use App\Pension;
 use App\User;
 use App\UserProfile;
@@ -27,6 +27,7 @@ use App\Philippine_cities;
 use App\Philippine_provinces;
 use App\Philippine_regions;
 use App\Agris;
+use App\Stocks;
 use App;
 /* plugin */
 use Yajra\Datatables\Datatables;
@@ -125,7 +126,8 @@ class AdminController extends Controller
         $data['regions'] = Philippine_regions::all();
         $data['civil_status'] = CivilStatus::all();
         $data['base_url'] = App::make("url")->to('/');
-        // $data['prof_pic'] = UserProfile::where('user_id', Auth::user()->id)->select('user_profile_pic')->pluck('user_profile_pic');
+
+        $data['prof_pic'] = UserProfile::where('user_id', Auth::user()->id)->select('user_profile_pic')->pluck('user_profile_pic');
 
         return view('admin.membershipform', $data);
     }
@@ -248,12 +250,34 @@ class AdminController extends Controller
 
     public function getBorrowPage()
     {
-        $data['title'] = "Borrow";
+        $data['title'] = "Loan";
         // $data['barangays'] = Barangay::all();
         // $data['civil_status'] = CivilStatus::all();
         $data['base_url'] = App::make("url")->to('/');
-        $data['records'] = Members::all();
-        $data['prof_pic'] = UserProfile::where('user_id', Auth::user()->id)->select('user_profile_pic')->pluck('user_profile_pic');
+        $data['members'] = Members::all();
+
+        $data['records'] = DB::table('borrows')
+        ->join('members', 'borrows.member_id', '=', 'members.id')
+        ->selectRaw('members.id,
+                members.fname,
+                members.lname,
+                members.mname,
+                members.ename,
+                members.passbooknumber,
+                borrows.typeofloan,
+                borrows.typeofcashloan,
+                borrows.agri_item,
+                borrows.qty,
+                borrows.unit,
+                borrows.amount,
+                borrows.totalamount,
+                borrows.micro,
+                borrows.days,
+                borrows.interest,
+                borrows.user_id,
+                borrows.created_at,
+                borrows.updated_at')
+        ->get();
 
         return view('admin.borrow', $data);
     }
@@ -377,7 +401,7 @@ class AdminController extends Controller
 
     public function saveMembers(Request $request){
         $this->validate($request, [
-            'profile_photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'profile_photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:5048',
         ]);
 
         if ($request->hasFile('profile_photo')) {
@@ -650,9 +674,7 @@ class AdminController extends Controller
 
     public function saveBorrow(Request $request)
     {
-        if (!isset($request->passbooknumber)) {
             $data = array(
-                'passbooknumber' => $request->member_id,
                 'member_id' => $request->member_id,
                 'typeofloan' => $request->type_of_loan,
                 'typeofcashloan' => $request->cashloantype,
@@ -663,37 +685,19 @@ class AdminController extends Controller
                 'totalamount' => $request->total_amount,
                 'micro' => $request->micro,
                 'days' => $request->num_days,
-                'interest' => $request->interest
+                'interest' => 2.5
             );
 
-            $res = Borrow::create($data);
-        }
-        // } else {
-        //     $data = array(
-        //         'passbooknumber' => $request->member_id,
-        //         'member_id' => $request->member_id,
-        //         'typeofloan' => $request->type_of_loan,
-        //         'typeofcashloan' => $request->cashloantype,
-        //         'agri_item' => $request->agri_item,
-        //         'qty' => $request->qty,
-        //         'unit' => $request->unit,
-        //         'amount' => $request->amount,
-        //         'totalamount' => $request->total_amount,
-        //         'micro' => $request->micro,
-        //         'days' => $request->num_days,
-        //         'interest' => $request->interest
-        //     );
+            $res = Borrows::create($data);
 
-        //     $res = Borrow::where('id', '=', $request->id)->update($data);
-        // }
 
         if ($res) {
             return redirect('/borrow')->with('message', 'success');
         } else {
             return redirect('/borrow')->with('message', 'error');
         }
-    }
 
+    }
     public function saveContribution(Request $request)
     {
         if (!isset($request->id)) {
@@ -973,20 +977,36 @@ class AdminController extends Controller
 
         $data['base_url'] = App::make("url")->to('/');
 
-        $data['inventory'] = Agris::all();
+        $data['items'] = Agris::all();
+
+        $data['inventory'] = DB::table('agris')
+                ->leftJoin('stocks', 'agris.id', '=', 'stocks.item_id')
+                ->select('agris.id',
+                    'agris.item_name',
+                    'agris.item_code',
+                    'agris.item_description',
+                    'agris.amount',
+                    'agris.status',
+                    'agris.created_at',
+                    'agris.updated_at',
+                    DB::raw('sum(stocks.qty) as qty'))
+                ->groupBy('item_id')
+                ->get();
 
         return view('admin.inventory', $data);
     }
 
     public function saveItem(Request $request){
-        $item_code = $request->item_name. '123';
-
-
+        // $item_code = $request->item_name. '123';
+        $oldStr = $request->item_name.'-'.date('d/Y');
+        $item_code = str_ireplace(array('a','e','i','o','u',' '), '', $oldStr);
+         // find if item name is already in the database
 
         $data = array(
             'item_name' => $request->item_name,
             'item_description' => $request->item_description,
             'item_code' => $item_code,
+            'amount' => $request->amount,
             'created_by' =>  Auth::user()->id,
             'updated_by' => Auth::user()->id,
             'status' => 1,
@@ -999,5 +1019,43 @@ class AdminController extends Controller
         } else {
             return redirect('/inventory')->with('message', 'error');
         }
+
+    }
+
+    public function saveStock(Request $request){
+        $data = array(
+            'item_id' => $request->item_name,
+            'qty' => $request->qty,
+            'created_by' =>  Auth::user()->id,
+            'updated_by' => Auth::user()->id,
+            'status' => 1,
+        );
+
+        $resultData = Stocks::create($data);
+
+        if ($resultData) {
+            return redirect('/inventory')->with('message', 'success');
+        } else {
+            return redirect('/inventory')->with('message', 'error');
+        }
+    }
+
+    public function getCiPage(){
+        $data['title'] = "Member List";
+
+        $data['base_url'] = App::make("url")->to('/');
+
+        $data['records'] = DB::table('members')
+                ->leftJoin('ci', 'members.id', '=', 'ci.member_id')
+                ->selectRaw('
+
+                            civil_status.name as civil_status')
+                ->where('user_id', Auth::user()->id)->get();
+
+        $data['prof_pic'] = UserProfile::where('user_id', Auth::user()->id)->select('user_profile_pic')->pluck('user_profile_pic');
+
+        return view('admin.ci', $data);
+
+
     }
 }

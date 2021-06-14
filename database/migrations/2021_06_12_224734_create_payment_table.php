@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCiTable extends Migration
+class CreatePaymentTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,13 @@ class CreateCiTable extends Migration
      */
     public function up()
     {
-        Schema::create('ci', function (Blueprint $table) {
+        Schema::create('payment', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('member_id');
-            $table->string('remarks');
-            $table->string('assets');
-            $table->integer('approved_by');
-            $table->integer('aproved_status')->comment("1=approved;0=rejected");
-            $table->integer('status')->comment("1=active;0=inactive");
+            $table->string('amount');
+            $table->string('ornumber');
+            $table->string('ornumber');
+            $table->string('member_id');
             $table->timestamps();
         });
     }
@@ -32,6 +31,6 @@ class CreateCiTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ci');
+        Schema::dropIfExists('payment');
     }
 }
