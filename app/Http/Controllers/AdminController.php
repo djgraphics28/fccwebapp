@@ -317,6 +317,7 @@ class AdminController extends Controller
                 borrows.created_at,
                 borrows.updated_at')
         ->get();
+        $data['prof_pic'] = UserProfile::where('user_id', Auth::user()->id)->select('user_profile_pic')->pluck('user_profile_pic');
 
         return view('admin.borrow', $data);
     }
@@ -1189,6 +1190,9 @@ class AdminController extends Controller
                 ->join('users', 'users.id', '=', 'sharedcapitals.user_id')
                 ->select('*')
                 ->get();
+
+        $data['prof_pic'] = UserProfile::where('user_id', Auth::user()->id)->select('user_profile_pic')->pluck('user_profile_pic');
+
 
         return view('admin.sharedcapital', $data);
     }
