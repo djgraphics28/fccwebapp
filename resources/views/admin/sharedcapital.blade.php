@@ -4,12 +4,12 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <a href="#" data-toggle="modal" data-target="#modal-station">
-            <button type="button" class="btn btn-success btn-sm">Add Borrow</button>
+            <button type="button" class="btn btn-success btn-sm" disabled>---</button>
         </a>
 
         <ol class="breadcrumb">
             <li><a href="{{ url('/home') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="active">Borrow</li>
+            <li class="active">Shared Capital</li>
         </ol>
     </section>
 
