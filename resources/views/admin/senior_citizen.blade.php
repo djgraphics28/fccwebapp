@@ -45,288 +45,39 @@
                 <table class="table table-bordered table-hover datatable" id="records_tbl" width="100%">
                     <thead>
                         <tr>
-                            <th>ID</th>
+                            <th>#</th>
                             <th>Name</th>
                             <th>Age</th>
+                            <th>Contact#</th>
+                            <th>Address</th>
                             <th>Gender</th>
+                            <th>Status</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
+                        <?php $x = 1; ?>
+                        @foreach ($records as $record)
+                            <tr>
+                                <td>{{ $x }}</td>
+                                <td>{{ $record->lname.", ".$record->fname." ".$record->mname." ".$record->ename }}</td>
+                                <td>{{ $record->birthdate ? date_diff(date_create($record->birthdate), date_create('today'))->y : '' }}</td>
+                                <td>{{ $record->contactnumber }}</td>
+                                <td>{{ $record->street." ".$record->barangay}}</td>
+                                <td>{{ $record->gender }}</td>
+                                <td><?php echo ($record->gender == 1 ? '<span class"btn btn-success">BONAFIDE</span>' : '<span class"btn btn-success">READY for CI</span>') ?></td>
+                                <td>
+                                    <a href="javascript:void(0);" id="btn-edit" data-id="{{ $record->id }}" class="btn btn-xs btn-success"><i class="fa fa-pencil"></i> </a>&nbsp;<a href="javascript:void(0);" id="btn-del" data-id="{{ $record->id }}" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-trash"></i> </a>
+                                </td>
+                            </tr>
+                        <?php $x++; ?>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
             <!-- /.box-body -->
         </div>
         <!-- /.box -->
-
-        <!-- Add Record modal -->
-        <div class="modal fade" id="modal-station" tabindex="-1" role="dialog">
-            <div class="modal-dialog modal-dialog-centered modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header bg-primary">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">
-                                Add new Record
-                        </h4>
-                    </div>
-                    <form id="add_station" method="POST" action="{{ url('/save-record') }}" enctype="multipart/form-data">
-                        @csrf
-                        <div class="modal-body">
-                            <div class="row">
-                                <div class="col-md-3 text-center">
-                                    <div class="effect7" id="profile-container" style="width:200px;height:200px;">
-                                        <img id="profileImage" src="{{ asset('public/dist/img/images.png') }}" style="width:200px;height:200px;" />
-                                    </div>
-                                    <input id="imageUpload" type="file" name="profile_photo" placeholder="Photo" required="" capture style="display:none;">
-                                </div>
-                                <div class="col-md-9">
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label for="">First Name <span style="color:red;">*</span></label>
-                                            <input type="text" name="fname" id="fname" required class="form-control" style="text-transform: capitalize;" placeholder="Juan">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label for="">Middle Name <span style="color:red;">*</span></label>
-                                            <input type="text" name="mname" id="mname" required class="form-control" style="text-transform: capitalize;" placeholder="De La">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label for="">Last Name <span style="color:red;">*</span></label>
-                                            <input type="text" style="text-transform: capitalize;" name="lname" id="lname" required class="form-control" placeholder="Cruz">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label for="">Ext. Name <span style="color:red;">*</span></label>
-                                            <input type="text" style="text-transform: capitalize;" name="ename" id="ename" class="form-control" placeholder="Jr.">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-9">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Birthdate <span style="color:red;">*</span></label>
-                                            <div class="input-group date">
-                                                <div class="input-group-addon">
-                                                    <i class="fa fa-calendar"></i>
-                                                </div>
-                                                <input type="text" class="form-control pull-right" name="birthdate" id="datepicker">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Civil Status <span style="color:red;">*</span></label>
-                                            <select name="civil_status" id="civil_status" class="form-control select2"  style="width: 100%;">
-                                                <option selected disabled>Select Status</option>
-                                                @foreach ($civil_status as $item)
-                                                    <option value="<?= $item->id ?>"><?= $item->name ?></option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-9">
-                                        <div class="form-group">
-                                            <label for="">Gender <span style="color:red;">*</span></label>
-                                            <div class="row col-md-offset-1">
-                                                <input type="radio" name="gender" value="Male" class="minimal" checked>
-                                                <i class="fa fa-male"></i> | Male
-                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                <input type="radio" name="gender" value="Female" class="minimal">
-                                                <i class="fa fa-female"></i> | Female
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="">Address <span style="color:red;">*</span></label>
-                                        <input type="text" name="address" id="address" style="text-transform: capitalize;" required class="form-control">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="">Barangay <span style="color:red;">*</span></label>
-                                        <select name="barangay" id="barangay" class="form-control select2" style="width: 100%;">
-                                            <option selected disabled>Select Barangay</option>
-                                            @foreach ($barangays as $item)
-                                                <option value="<?= $item->id ?>"><?= $item->name ?></option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="">Street</label>
-                                        <input type="text" name="street" id="street" class="form-control" style="text-transform: capitalize;">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="">Phone Number</label>
-                                        <input type="text" name="phone_num" id="phone_num" class="form-control" data-inputmask='"mask": "(0999) 999-9999"' data-mask>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="">Telephone Number</label>
-                                        <input type="text" name="tel_num" id="tel_num" class="form-control" data-inputmask='"mask": "(999) 999-9999"' data-mask>
-                                    </div>
-                                </div>
-                            </div>
-                            <hr>
-                            <h4><b><i>Contact Person</i></b></h4>
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="">First Name <span style="color:red;">*</span></label>
-                                        <input type="text" name="cp_fname" id="cp_fname" required style="text-transform: capitalize;" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="">Middle Name <span style="color:red;">*</span></label>
-                                        <input type="text" name="cp_mname" id="cp_mname" required style="text-transform: capitalize;" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="">Last Name <span style="color:red;">*</span></label>
-                                        <input type="text" name="cp_lname" id="cp_lname" required style="text-transform: capitalize;" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label for="">Extension Name <span style="color:red;">*</span></label>
-                                        <input type="text" name="cp_ename" id="cp_ename" style="text-transform: capitalize;" class="form-control">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="">Relationship <span style="color:red;">*</span></label>
-                                        <input type="text" name="relationship" id="relationship" required style="text-transform: capitalize;" class="form-control">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="">Full Address <span style="color:red;">*</span></label>
-                                        <input type="text" name="cp_address" id="cp_address" required style="text-transform: capitalize;" class="form-control">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="">Phone Number</label>
-                                        <input type="text" name="cp_phone_num" id="cp_phone_num" class="form-control" data-inputmask='"mask": "(0999) 999-9999"' data-mask>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="">Telephone Number</label>
-                                        <input type="text" name="cp_tel_num" id="cp_tel_num" class="form-control" data-inputmask='"mask": "(999) 999-9999"' data-mask>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <span class="pull-left"><i>Note: Fields with (<span style="color:red;">*</span>) is required.</i></span>
-                            <button type="submit" class="btn btn-primary">Save changes</button>
-                        </div>
-                    </form>
-                </div>
-                <!-- /.modal-content -->
-            </div>
-            <!-- /.modal-dialog -->
-        </div>
-        <!-- /.Add Record modal -->
-
-        {{-- EDIT RECORD COYCOY the great --}}
-        <div class="modal fade" id="edit-record" tabindex="-1" role="dialog">
-            <div class="modal-dialog modal-dialog-centered modal-lg">
-                <div class="modal-content">
-                    <div class="modal-header bg-primary">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">
-                                Edit Record
-                        </h4>
-                    </div>
-                    <div class="modal-body" style="background-color: #f1f1f1db!important;">
-                        <div class="row">
-                            <div class="col-md-3">
-
-                              <!-- Profile Image -->
-                              <div class="box box-primary">
-                                <div class="box-body box-profile">
-                                  <img class="profile-user-img img-responsive" id="prof_pic" src="" alt="User profile picture">
-
-                                  <h5 class="profile-username text-center" id="profile-username"></h5>
-
-                                  <p class="text-muted text-center" id="idnum"></p>
-
-                                  <ul class="list-group list-group-unbordered">
-                                    <li class="list-group-item">
-                                      <b>Age</b> <a class="pull-right" id="prof-age"></a>
-                                    </li>
-                                    <li class="list-group-item">
-                                      <b>Birthday</b> <a class="pull-right" id="prof-bday"></a>
-                                    </li>
-                                    <li class="list-group-item">
-                                      <b>Gender</b> <a class="pull-right" id="prof-gender"></a>
-                                    </li>
-                                  </ul>
-                                </div>
-                                <!-- /.box-body -->
-                              </div>
-                              <!-- /.box -->
-                            </div>
-
-                            <!-- /.col -->
-                            <div class="col-md-9">
-                              <div class="nav-tabs-custom">
-                                <ul class="nav nav-tabs">
-                                  <li class="active"><a href="#info" data-toggle="tab" aria-expanded="false">Info</a></li>
-                                  <li class=""><a href="#cp" data-toggle="tab" aria-expanded="false">Contact Person</a></li>
-                                </ul>
-                                <div class="tab-content">
-                                  <div class="tab-pane active" id="info">
-
-                                  </div>
-                                  <!-- /.tab-pane -->
-                                  <div class="tab-pane" id="cp">
-
-                                  </div>
-                                  <!-- /.tab-pane -->
-                                </div>
-                                <!-- /.tab-content -->
-                              </div>
-                              <!-- /.nav-tabs-custom -->
-                            </div>
-                            <!-- /.col -->
-                        </div>
-                    </div>
-                </div>
-                <!-- /.modal-content -->
-            </div>
-            <!-- /.modal-dialog -->
-        </div>
-        {{-- EDIT RECORD COYCOY the great --}}
 
         <!-- View Record modal -->
         <div class="modal fade" id="view-record" tabindex="-1" role="dialog">
@@ -430,19 +181,19 @@
             fasterPreview( this );
         });
 
-         /* datatable initialization */
-        $('#records_tbl').DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: "{{url('/admin-get-records')}}",
-            columns: [
-                { data: 'unique_id_num', name: 'id' },
-                { data: 'fullname', name: 'fname'  },
-                { data: 'birthdate', name: 'birthdate' },
-                { data: 'gender', name: 'gender' },
-                { data: 'action', name: 'action', className: 'text-center' }
-            ]
-        }); /* datatable initialization */
+        //  /* datatable initialization */
+        // $('#records_tbl').DataTable({
+        //     processing: true,
+        //     serverSide: true,
+        //     ajax: "{{url('/admin-get-records')}}",
+        //     columns: [
+        //         { data: 'unique_id_num', name: 'id' },
+        //         { data: 'fullname', name: 'fname'  },
+        //         { data: 'birthdate', name: 'birthdate' },
+        //         { data: 'gender', name: 'gender' },
+        //         { data: 'action', name: 'action', className: 'text-center' }
+        //     ]
+        // }); /* datatable initialization */
 
          /* datepicker initialization */
         $('#datepicker').datepicker({
@@ -466,10 +217,6 @@
                 }
             });
         }); /* Delete Button */
-
-        // EDIT RECORD MODAL COY COY
-        $('#records_tbl').on('click', '#btn-edit', function(){
-        // EDIT RECORD MODAL
 
          /* View Button */
         $('#records_tbl').on('click', '#btn-view', function(){

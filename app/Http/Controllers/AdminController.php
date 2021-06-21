@@ -108,11 +108,50 @@ class AdminController extends Controller
 
     public function getSeniorCitizenPage()
     {
+        // $data['title'] = "Member List";
+        // $data['barangays'] = Barangay::all();
+        // $data['civil_status'] = CivilStatus::all();
+        // $data['base_url'] = App::make("url")->to('/');
+        // $data['prof_pic'] = UserProfile::where('user_id', Auth::user()->id)->select('user_profile_pic')->pluck('user_profile_pic');
         $data['title'] = "Member List";
-        $data['barangays'] = Barangay::all();
-        $data['civil_status'] = CivilStatus::all();
+
         $data['base_url'] = App::make("url")->to('/');
+
+        $data['records'] = DB::table('members')
+                    ->where('status', 1)
+                ->selectRaw('id,
+                fname,
+                lname,
+                mname,
+                ename,
+                gender,
+                birthdate,
+                placeofbirth,
+                civil_status,
+                occupation,
+                contactnumber,
+                validno,
+                tin,
+                unique_id_num,
+                street,
+                barangay,
+                municipality,
+                province,
+                areatilage,
+                location,
+                othersource,
+                tenurialstatus,
+                passbooknumber,
+                emailaddress,
+                ornumber,
+                profile_pic,
+                status,
+                created_at,
+                updated_at')->get();
+
         $data['prof_pic'] = UserProfile::where('user_id', Auth::user()->id)->select('user_profile_pic')->pluck('user_profile_pic');
+
+        // return view('admin.ci', $data);
 
         return view('admin.senior_citizen', $data);
     }
