@@ -1186,7 +1186,7 @@ class AdminController extends Controller
         // $data['sharedcapital'] = Sharedcapitals::all();
 
         $data['sharedcapital'] = DB::table('sharedcapitals')
-                ->join('user', 'user.id', '=', 'sharedcapitals.user_id')
+                ->join('users', 'users.id', '=', 'sharedcapitals.user_id')
                 ->select('*')
                 ->get();
 
