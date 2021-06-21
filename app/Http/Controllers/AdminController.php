@@ -440,9 +440,9 @@ class AdminController extends Controller
     }
 
     public function saveMembers(Request $request){
-        $this->validate($request, [
-            'profile_photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:5048',
-        ]);
+        // $this->validate($request, [
+        //     'profile_photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:5048',
+        // ]);
 
         if ($request->hasFile('profile_photo')) {
             $image = $request->file('profile_photo');
