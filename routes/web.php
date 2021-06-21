@@ -59,9 +59,12 @@ Route::post('/change-password', 'AdminController@changeUserPassword');
 Route::get('/inventory', 'AdminController@getInventoryPage');
 Route::post('/save-item', 'AdminController@saveItem');
 Route::post('/save-stock', 'AdminController@saveStock');
+Route::get('/get-items-data','AdminController@getItems');
+Route::post('/update-items','AdminController@updateItems');
 
 Route::get('/ci', 'AdminController@getCiPage');
 // sample
+Route::get('/payment', 'AdminController@getPaymentPage');
 Route::get('/admin-sample', 'AdminController@getSamplePage');
 
 /* DataTables */

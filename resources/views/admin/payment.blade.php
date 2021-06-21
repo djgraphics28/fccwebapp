@@ -4,7 +4,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <a href="#" data-toggle="modal" data-target="#modal-station">
-            <button type="button" class="btn btn-success btn-sm">Add Payment</button>
+            <button type="button" class="btn btn-success btn-sm" disabled>Add Payment</button>
         </a>
 
         <ol class="breadcrumb">
@@ -18,7 +18,7 @@
         <!-- Default box -->
         <div class="box box-primary">
             <div class="box-header with-border">
-                <h3 class="box-title">Payment History List</h3>
+                <h3 class="box-title">Payment</h3>
 
                 <div class="box-tools pull-right">
                     <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
@@ -42,34 +42,19 @@
                         </div>
                     @endif
                 </div>
-                <table class="table table-bordered table-hover datatable" id="contributions_tbl" width="100%">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Name</th>
-                            <th>Pension</th>
-                            <th>Created At</th>
-                            <th>Updated At</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if (isset($data))
-                        @foreach ($data as $item)
-                        <tr>
-                            <td>{{ $item->unique_id_num }}</td>
-                            <td>{{ $item->full_name }}</td>
-                            <td class="text-right">&#8369; {{ number_format($item->pension_amount, 2) }}</td>
-                            <td>{{ date('m/d/Y h:i a', strtotime($item->created_at)) }}</td>
-                            <td>{{ date('m/d/Y h:i a', strtotime($item->updated_at)) }}</td>
-                            <td>
-                                <a href="javascript:void(0);" id="btn-edit" data-id="{{ $item->id }}" class="btn btn-xs btn-success"><i class="fa fa-pencil"></i> </a>&nbsp;<a href="javascript:void(0);" id="btn-del" data-id="{{ $item->id }}" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-trash"></i> </a>
-                            </td>
-                        </tr>
-                        @endforeach
-                        @endif
-                    </tbody>
-                </table>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="">Search Member's Name</label>
+                            <select name="member_id" id="member_id" class="form-control select2" style="width: 100%;" required>
+                                <option disabled selected>[ Search Member's Name ]</option>
+                                @foreach ($records as $item)
+                                <option value="{{ $item->id }}">{{ $item->fname.' '.$item->mname.' '.$item->lname }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </div>
             </div>
             <!-- /.box-body -->
         </div>

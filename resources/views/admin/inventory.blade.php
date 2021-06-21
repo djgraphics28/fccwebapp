@@ -74,7 +74,8 @@
                             <td>{{ date('m/d/Y h:i a', strtotime($item->created_at)) }}</td>
                             <td>{{ date('m/d/Y h:i a', strtotime($item->updated_at)) }}</td>
                             <td>
-                                <a href="javascript:void(0);" id="btn-edit" data-id="{{ $item->id }}" class="btn btn-xs btn-success"><i class="fa fa-pencil"></i> </a>&nbsp;<a href="javascript:void(0);" id="btn-del" data-id="{{ $item->id }}" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-trash"></i> </a>
+                                <button title="EDIT ITEMS" class="btn btn-xs btn-success" onclick="editItems({{$item->item_name}})"><i class="fa fa-pencil"></i></button>
+                                {{-- <a href="javascript:void(0);" id="btn-edit" data-id="{{ $item->id }}" class="btn btn-xs btn-success"><i class="fa fa-pencil"></i> </a>&nbsp;<a href="javascript:void(0);" id="btn-del" data-id="{{ $item->id }}" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-trash"></i> </a> --}}
                             </td>
                         </tr>
                         @endforeach
@@ -188,6 +189,7 @@
             <!-- /.modal-dialog -->
         </div>
         <!-- /.Add Record modal -->
+
 
         <!-- View Record modal -->
         <div class="modal fade" id="view-record" tabindex="-1" role="dialog">
@@ -311,13 +313,13 @@
 
         $("#btn-edit").on('click', function() {
             $.ajax({
-                url: "{{ url('/get-contribution-data') }}",
+                url: "{{ url('/get-items-data') }}",
                 type: "POST",
-                data: {'c_id': $(this).attr('data-id'),'_token': $('meta[name="csrf-token"]').attr('content')},
+                data: {'item_id': $(this).attr('data-id'),'_token': $('meta[name="csrf-token"]').attr('content')},
                 success: function(items) {
-                    $("#senior_id").val(items.user[0].senior_id).trigger('change');
-                    $("#contribution").val(items.user[0].amount);
-                    $("#id").val(items.user[0].id);
+                    // $("#senior_id").val(items.user[0].senior_id).trigger('change');
+                    // $("#item_name").val(items.item[0].item_name);
+                    // $("#id").val(items.item[0].id);
                     $("#modal-station").modal('show');
                 }
             });
@@ -364,5 +366,13 @@
             });
         });
     });
+
+    function editItems(id,item_name){
+        console.log(item_name);
+        $("#modal-station").modal('show');
+         $("#item_name").val(item_name);
+    }
+
+
 </script>
 @endsection

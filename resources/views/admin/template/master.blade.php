@@ -103,7 +103,7 @@
     <a href="{{ url('/home') }}" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini" style="font-size:14px!important;"><b>LMS</b></span>
-      <span class="logo-lg"><b>LMS</b></span>
+      <span class="logo-lg"><b>Loan Management System</b></span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
@@ -197,7 +197,7 @@
         </li>
         <li class="{{ strpos(Request::url(), 'admin-record') == true ? 'active' : '' }}">
             <a href="{{ url('/admin-record') }}">
-              <i class="fa fa-users"></i> <span>Bonafied Members</span>
+              <i class="fa fa-users"></i> <span>Bonafide Members</span>
             </a>
           </li>
         <li class="{{ strpos(Request::url(), 'contribution') == true ? 'active' : '' }}">

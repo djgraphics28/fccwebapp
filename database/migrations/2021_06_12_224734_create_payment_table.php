@@ -18,8 +18,6 @@ class CreatePaymentTable extends Migration
             $table->integer('member_id');
             $table->string('amount');
             $table->string('ornumber');
-            $table->string('ornumber');
-            $table->string('member_id');
             $table->timestamps();
         });
     }

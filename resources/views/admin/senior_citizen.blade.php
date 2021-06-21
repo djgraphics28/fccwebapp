@@ -256,6 +256,78 @@
         </div>
         <!-- /.Add Record modal -->
 
+        {{-- EDIT RECORD COYCOY the great --}}
+        <div class="modal fade" id="edit-record" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">
+                                Edit Record
+                        </h4>
+                    </div>
+                    <div class="modal-body" style="background-color: #f1f1f1db!important;">
+                        <div class="row">
+                            <div class="col-md-3">
+
+                              <!-- Profile Image -->
+                              <div class="box box-primary">
+                                <div class="box-body box-profile">
+                                  <img class="profile-user-img img-responsive" id="prof_pic" src="" alt="User profile picture">
+
+                                  <h5 class="profile-username text-center" id="profile-username"></h5>
+
+                                  <p class="text-muted text-center" id="idnum"></p>
+
+                                  <ul class="list-group list-group-unbordered">
+                                    <li class="list-group-item">
+                                      <b>Age</b> <a class="pull-right" id="prof-age"></a>
+                                    </li>
+                                    <li class="list-group-item">
+                                      <b>Birthday</b> <a class="pull-right" id="prof-bday"></a>
+                                    </li>
+                                    <li class="list-group-item">
+                                      <b>Gender</b> <a class="pull-right" id="prof-gender"></a>
+                                    </li>
+                                  </ul>
+                                </div>
+                                <!-- /.box-body -->
+                              </div>
+                              <!-- /.box -->
+                            </div>
+
+                            <!-- /.col -->
+                            <div class="col-md-9">
+                              <div class="nav-tabs-custom">
+                                <ul class="nav nav-tabs">
+                                  <li class="active"><a href="#info" data-toggle="tab" aria-expanded="false">Info</a></li>
+                                  <li class=""><a href="#cp" data-toggle="tab" aria-expanded="false">Contact Person</a></li>
+                                </ul>
+                                <div class="tab-content">
+                                  <div class="tab-pane active" id="info">
+
+                                  </div>
+                                  <!-- /.tab-pane -->
+                                  <div class="tab-pane" id="cp">
+
+                                  </div>
+                                  <!-- /.tab-pane -->
+                                </div>
+                                <!-- /.tab-content -->
+                              </div>
+                              <!-- /.nav-tabs-custom -->
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        {{-- EDIT RECORD COYCOY the great --}}
+
         <!-- View Record modal -->
         <div class="modal fade" id="view-record" tabindex="-1" role="dialog">
             <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -394,6 +466,10 @@
                 }
             });
         }); /* Delete Button */
+
+        // EDIT RECORD MODAL COY COY
+        $('#records_tbl').on('click', '#btn-edit', function(){
+        // EDIT RECORD MODAL
 
          /* View Button */
         $('#records_tbl').on('click', '#btn-view', function(){

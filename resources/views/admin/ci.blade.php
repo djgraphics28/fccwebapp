@@ -60,14 +60,17 @@
                         @foreach ($records as $record)
                             <tr>
                                 <td>{{ $x }}</td>
-                                <td>{{ }}</td>
-                                <td>{{}}</td>
-                                <td>{{}}</td>
-                                <td>{{}}</td>
-                                <td>{{}}</td>
+                                <td>{{ $record->lname.", ".$record->fname." ".$record->mname." ".$record->ename }}</td>
+                                <td>{{ $record->birthdate ? date_diff(date_create($record->birthdate), date_create('today'))->y : '' }}</td>
+                                <td>{{ $record->contactnumber }}</td>
+                                <td>{{ $record->street." ".$record->barangay}}</td>
+                                <td>{{ $record->gender }}</td>
                                 <td></td>
-                                <td></td>
+                                <td>
+                                    <a href="javascript:void(0);" id="btn-edit" data-id="{{ $record->id }}" class="btn btn-xs btn-success"><i class="fa fa-pencil"></i> </a>&nbsp;<a href="javascript:void(0);" id="btn-del" data-id="{{ $record->id }}" class="btn btn-xs btn-danger"><i class="glyphicon glyphicon-trash"></i> </a>
+                                </td>
                             </tr>
+                        <?php $x++; ?>
                         @endforeach
                     </tbody>
                 </table>

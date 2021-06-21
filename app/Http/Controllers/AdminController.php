@@ -748,13 +748,13 @@ class AdminController extends Controller
         }
     }
 
-    public function getContributionData(Request $request)
+    public function getItems(Request $request)
     {
-        $data = Contribution::where('id', $request->c_id)->get();
+        $data = Agris::where('id', $request->item_id)->get();
 
         if ($data) {
             return response()->json([
-                'user'  => $data,
+                'item'  => $data,
                 'status' => 200
             ]);
         } else {
@@ -1046,16 +1046,96 @@ class AdminController extends Controller
         $data['base_url'] = App::make("url")->to('/');
 
         $data['records'] = DB::table('members')
-                ->leftJoin('ci', 'members.id', '=', 'ci.member_id')
-                ->selectRaw('
-
-                            civil_status.name as civil_status')
-                ->where('user_id', Auth::user()->id)->get();
+                    ->where('status', 1)
+                ->selectRaw('id,
+                fname,
+                lname,
+                mname,
+                ename,
+                gender,
+                birthdate,
+                placeofbirth,
+                civil_status,
+                occupation,
+                contactnumber,
+                validno,
+                tin,
+                unique_id_num,
+                street,
+                barangay,
+                municipality,
+                province,
+                areatilage,
+                location,
+                othersource,
+                tenurialstatus,
+                passbooknumber,
+                emailaddress,
+                ornumber,
+                profile_pic,
+                status,
+                created_at,
+                updated_at')->get();
 
         $data['prof_pic'] = UserProfile::where('user_id', Auth::user()->id)->select('user_profile_pic')->pluck('user_profile_pic');
 
         return view('admin.ci', $data);
 
 
+    }
+
+    // public function getItems(Request $request){
+    //     // $data = DB::table('agris')
+    //     // ->where('agris.id', '=', $request->data)
+    //     // ->select('agris.*')
+    //     // ->get();
+
+    //     $data['items'] = Records::where('id', '=', $request->id)->get();
+
+    //     // echo json_encode($data);
+
+    //     if ($data) {
+    //         return response()->json([
+    //             'items'  => $data
+    //         ]);
+    //     } else {
+    //         return response()->json([
+    //             'status' => 500
+    //         ]);
+    //     }
+    // }
+
+    public function getPaymentPage(){
+        $data['title'] = "Payment";
+        // $data['barangays'] = Barangay::all();
+        // $data['civil_status'] = CivilStatus::all();
+        $data['base_url'] = App::make("url")->to('/');
+        $data['members'] = Members::all();
+
+        $data['records'] = DB::table('borrows')
+        ->join('members', 'borrows.member_id', '=', 'members.id')
+        ->selectRaw('members.id,
+                members.fname,
+                members.lname,
+                members.mname,
+                members.ename,
+                members.passbooknumber,
+                borrows.typeofloan,
+                borrows.typeofcashloan,
+                borrows.agri_item,
+                borrows.qty,
+                borrows.unit,
+                borrows.amount,
+                borrows.totalamount,
+                borrows.micro,
+                borrows.days,
+                borrows.interest,
+                borrows.user_id,
+                borrows.created_at,
+                borrows.updated_at')
+                ->groupBy('members.id')
+        ->get();
+
+        return view('admin.payment', $data);
     }
 }
