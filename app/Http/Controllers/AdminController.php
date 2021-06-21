@@ -1189,6 +1189,7 @@ class AdminController extends Controller
         $data['sharedcapital'] = DB::table('sharedcapitals')
                 ->join('users', 'users.id', '=', 'sharedcapitals.user_id')
                 ->select('*')
+                ->where('users.id',  Auth::user()->id)
                 ->get();
 
         $data['prof_pic'] = UserProfile::where('user_id', Auth::user()->id)->select('user_profile_pic')->pluck('user_profile_pic');
