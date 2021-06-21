@@ -1177,4 +1177,19 @@ class AdminController extends Controller
 
         return view('admin.payment', $data);
     }
+
+    public function getSharedCapital(){
+        $data['title'] = "Shared Capital";
+
+        $data['base_url'] = App::make("url")->to('/');
+
+        // $data['sharedcapital'] = Sharedcapitals::all();
+
+        $data['sharedcapital'] = DB::table('sharedcapitals')
+                ->join('user', 'user.id', '=', 'sharedcapitals.user_id')
+                ->select('*')
+                ->get();
+
+        return view('admin.sharedcapital', $data);
+    }
 }

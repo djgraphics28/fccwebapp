@@ -55,7 +55,7 @@
                     </thead>
                     <tbody>
                         <?php $x = 1 ;?>
-                        @foreach ($capital as $item)
+                        @foreach ($sharedcapital as $item)
                         <tr>
                             <td>{{ $x }}</td>
                             <td>{{ $item->capital }}</td>
